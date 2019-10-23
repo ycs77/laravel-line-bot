@@ -1,0 +1,42 @@
+{
+    "name": "ycs77/laravel-line-bot",
+    "description": "LINE Messaging API SDK for Laravel.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lucas Yang",
+            "email": "yangchenshin77@gmail.com"
+        }
+    ],
+    "keywords": [
+        "LINE",
+        "bot",
+        "sdk",
+        "laravel"
+    ],
+    "homepage": "https://github.com/ycs77/laravel-line-bot",
+    "require": {
+        "php": "^7.0",
+        "laravel/framework": "^5.5|^6.0",
+        "linecorp/line-bot-sdk": "^3.14"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ycs77\\LaravelLineBot\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ycs77\\LaravelLineBot\\LineBotServiceProvider"
+            ],
+            "aliases": {
+                "LineBot": "Ycs77\\LaravelLineBot\\Facades\\LineBot"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
