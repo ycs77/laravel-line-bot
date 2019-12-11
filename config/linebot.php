@@ -33,6 +33,6 @@ return [
     |
     */
 
-    'endpoint_base' => env('LINE_BOT_ENDPOINT_BASE', 'https://api.line.me'),
+    'endpoint_base' => env('LINE_BOT_ENDPOINT_BASE', 'https://api-data.line.me'),
 
 ];
