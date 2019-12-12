@@ -153,7 +153,7 @@ class LineBot
     public function getUser(string $lineUserId)
     {
         if (!Arr::get($this->config, 'user.enabled')) {
-            return null;
+            return;
         }
 
         $class = Arr::get($this->config, 'user.model');
@@ -175,7 +175,7 @@ class LineBot
     public function createUser(string $userId, string $name)
     {
         if (!$this->config['user']['enabled']) {
-            return null;
+            return;
         }
 
         if ($user = $this->getUser($userId)) {

@@ -3,7 +3,6 @@
 namespace Ycs77\LaravelLineBot;
 
 use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
-use Ycs77\LaravelLineBot\Talk;
 
 class TalkCollection
 {

@@ -134,7 +134,8 @@ class MatcherTest extends TestCase
     public function testIsMatchTextMessage(string $message, string $pattern, bool $expected)
     {
         $matcher = new Matcher();
-        $talk = new Talk(TextMessage::class, $pattern, function () {});
+        $talk = new Talk(TextMessage::class, $pattern, function () {
+        });
         $event = new TextMessage([
             'message' => [
                 'type' => 'text',
@@ -153,7 +154,8 @@ class MatcherTest extends TestCase
     public function testIsMatchImageMessage()
     {
         $matcher = new Matcher();
-        $talk = new Talk(ImageMessage::class, '', function () {});
+        $talk = new Talk(ImageMessage::class, '', function () {
+        });
         $event = new ImageMessage([
             'message' => [
                 'contentProvider' => [
