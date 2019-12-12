@@ -33,6 +33,60 @@ return [
     |
     */
 
-    'endpoint_base' => env('LINE_BOT_ENDPOINT_BASE', 'https://api-data.line.me'),
+    'endpoint_base' => env('LINE_BOT_ENDPOINT_BASE', 'https://api.line.me'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Endpoint Base
+    |--------------------------------------------------------------------------
+    |
+    | This value is the Line Bot API endpoint base URL.
+    |
+    */
+
+    'dataEndpointBase' => env('LINE_BOT_DATA_ENDPOINT_BASE', 'https://api-data.line.me'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cache Driver
+    |--------------------------------------------------------------------------
+    |
+    | This option controls the Line Bot default cache driver name.
+    |
+    | Reference: "config/cache.php"
+    | Supported: "apc", "array", "database", "file",
+    |            "memcached", "redis", "dynamodb"
+    |
+    */
+
+    'cache' => env('LINE_BOT_CACHE_DRIVER') ?? env('CACHE_DRIVER', 'file'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Routes Path
+    |--------------------------------------------------------------------------
+    |
+    | This value is the Line Bot routes file path.
+    |
+    */
+
+    'routes_path' => 'routes/linebot.php',
+
+    /*
+    |--------------------------------------------------------------------------
+    | User Eloquent Model
+    |--------------------------------------------------------------------------
+    |
+    | This config is setting the Line Bot User Eloquent Model.
+    |
+    | (wip 功能開發中...)
+    |
+    */
+
+    'user' => [
+        'model' => App\User::class,
+        'field' => 'line_user_id',
+        'enabled' => false,
+    ],
 
 ];
