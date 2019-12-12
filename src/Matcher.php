@@ -1,4 +1,5 @@
 <?php
+
 namespace Ycs77\LaravelLineBot;
 
 use LINE\LINEBot\Event\MessageEvent\TextMessage;
