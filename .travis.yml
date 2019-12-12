@@ -20,6 +20,9 @@ env:
 
 matrix:
   fast_finish: true
+  include:
+    - php: 7.0
+      env: LARAVEL=5.5.*
   exclude:
     - php: 7.1
       env: LARAVEL=^6.0
