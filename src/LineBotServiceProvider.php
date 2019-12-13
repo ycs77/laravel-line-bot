@@ -31,6 +31,7 @@ class LineBotServiceProvider extends ServiceProvider
             return new BaseLINEBot($app['linebot.http'], [
                 'channelSecret' => $app['config']['linebot.channel_secret'],
                 'endpointBase' => $app['config']['linebot.endpoint_base'],
+                'dataEndpointBase' => $app['config']['linebot.data_endpoint_base'],
             ]);
         });
 

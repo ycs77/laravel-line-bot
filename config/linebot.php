@@ -44,7 +44,7 @@ return [
     |
     */
 
-    'dataEndpointBase' => env('LINE_BOT_DATA_ENDPOINT_BASE', 'https://api-data.line.me'),
+    'data_endpoint_base' => env('LINE_BOT_DATA_ENDPOINT_BASE', 'https://api-data.line.me'),
 
     /*
     |--------------------------------------------------------------------------
