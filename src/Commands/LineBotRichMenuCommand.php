@@ -55,8 +55,6 @@ trait LineBotRichMenuCommand
     {
         $this->error('Create the Line Bot rich menu is fail.');
         $this->error($response->getRawBody());
-
-        return;
     }
 
     /**
@@ -69,8 +67,6 @@ trait LineBotRichMenuCommand
     {
         $this->error('Get the Line Bot rich menu list is fail.');
         $this->error($response->getRawBody());
-
-        return;
     }
 
     /**
