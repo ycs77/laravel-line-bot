@@ -29,13 +29,13 @@
 composer require ycs77/laravel-line-bot
 ```
 
-發布檔案：
+發布檔案 (選用)：
 
 ```bash
 php artisan vendor:publish --provider=Ycs77\\LaravelLineBot\\LineBotServiceProvider
 ```
 
-設定 Line Bot 金鑰 (在 [Line Developers](https://developers.line.biz/zh-hant/) 上申請)：
+設定 Line Bot 金鑰到 `.env` 檔裡 (在 [Line Developers](https://developers.line.biz/zh-hant/) 上申請)：
 
 ```
 LINE_BOT_CHANNEL_ACCESS_TOKEN=xxx...
@@ -44,9 +44,7 @@ LINE_BOT_CHANNEL_SECRET=123...
 
 ## 使用
 
-### Laravel 使用方式
-
-> 功能正在開發中
+首先先新增 `LineController` 、 `webhook` 方法和 `LineBotService` Trait，並複製以下範例即可開始開發 Line Bot：
 
 *app/Http/Controllers/LineController.php*
 ```php
@@ -66,28 +64,6 @@ class LineController extends Controller
     {
         return $this->lineBotReply($request, $response);
     }
-}
-
-```
-
-*routes/linebot.php*
-```php
-LineBot::text('hello', function (TextMessage $event) {
-    return '哈囉!!';
-});
-```
-
-### 原本 PHP 使用方式
-
-> 注意：使用本方法時，`routes/linebot.php` 裡的定義將不起作用。
-
-基於上方 `LineController` 來增加方法：
-
-*app/Http/Controllers/LineController.php*
-```php
-class LineController extends Controller
-{
-    ...
 
     protected function reply(array $events)
     {
@@ -118,9 +94,7 @@ class LineController extends Controller
 
 ```
 
-## 參考
-
-更多資訊請參考以下資料：
+更多資訊請參考 Line 官方文檔：
 
 * [Line SDK 文檔](https://developers.line.biz/en/reference/messaging-api/)
 * [Line 官方 SDK - PHP](https://github.com/line/line-bot-sdk-php)
