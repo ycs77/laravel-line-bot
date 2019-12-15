@@ -70,6 +70,7 @@ class LineBotServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerCommands();
         $this->publishResources();
         $this->loadRoutes();
     }
@@ -87,6 +88,20 @@ class LineBotServiceProvider extends ServiceProvider
                 $this->app->alias($key, $alias);
             }
         }
+    }
+
+    /**
+     * Register the commands.
+     *
+     * @return void
+     */
+    public function registerCommands()
+    {
+        $this->commands([
+            Commands\CreateLineBotRichMenuCommand::class,
+            Commands\GetLineBotRichMenuListCommand::class,
+            Commands\ClearLineBotRichMenuCommand::class,
+        ]);
     }
 
     /**

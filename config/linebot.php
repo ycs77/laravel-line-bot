@@ -48,6 +48,42 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Rich Menu
+    |--------------------------------------------------------------------------
+    |
+    | This value is setting the Line Bot rich menu.
+    | Use `php artisan linebot:richmenu:create "public/image.jpg"` to create
+    | a new rich menu.
+    |
+    */
+
+    'rich_menu' => [
+        'size' => [
+          'width' => 2500,
+          'height' => 1686,
+        ],
+        'selected' => false,
+        'name' => 'Nice richmenu',
+        'chatBarText' => 'Tap here',
+        'areas' => [
+            [
+                'bounds' => [
+                    'x' => 0,
+                    'y' => 0,
+                    'width' => 2500,
+                    'height' => 1686,
+                ],
+                'action' => [
+                    'type' => 'message',
+                    'label' => 'Message',
+                    'text' => 'Message',
+                ],
+            ],
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Cache Driver
     |--------------------------------------------------------------------------
     |

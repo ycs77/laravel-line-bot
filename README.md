@@ -99,6 +99,46 @@ class LineController extends Controller
 * [Line SDK 文檔](https://developers.line.biz/en/reference/messaging-api/)
 * [Line 官方 SDK - PHP](https://github.com/line/line-bot-sdk-php)
 
+## Artisan 命令
+
+### Rich Menu
+
+#### 新增 Rich Menu 和上傳圖片
+
+先在 `config/linebot.php` 中設定好 `rich_menu` 後，執行 `linebot:richmenu:create` 命令以新增 Rich Menu：
+
+```
+linebot:richmenu:create "public/image.jpg"
+```
+
+#### 查看 Rich Menu
+
+查看全部 Rich Menu ID：
+
+```
+linebot:richmenu:list
+```
+
+查看原始的全部 Rich Menu 資料：
+
+```
+linebot:richmenu:list --raw
+```
+
+#### 刪除 Rich Menu
+
+刪除指定 Rich Menu ID：
+
+```
+linebot:richmenu:clear richmenuid-sdg24sd56gf...
+```
+
+刪除指定 Rich Menu：
+
+```
+linebot:richmenu:clear --all
+```
+
 [ico-version]: https://img.shields.io/packagist/v/ycs77/laravel-line-bot?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square
 [ico-ci]: https://img.shields.io/travis/ycs77/laravel-line-bot?style=flat-square
