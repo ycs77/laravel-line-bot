@@ -54,7 +54,7 @@ class LineBotServiceProvider extends ServiceProvider
         // Set aliases
         $this->app->alias('linebot', LineBot::class);
         $this->app->alias('linebot.base', BaseLINEBot::class);
-        $this->app->alias('linebot.http', HTTPClient::class);
+        $this->app->alias('linebot.http', CurlHTTPClient::class);
         $this->app->alias('linebot.response', ResponseContracts::class);
         $this->app->alias('linebot.talks', TalkCollection::class);
 
