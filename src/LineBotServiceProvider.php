@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use LINE\LINEBot as BaseLINEBot;
 use LINE\LINEBot\HTTPClient;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
-use Ycs77\LaravelLineBot\Contracts\Response as ResponseContracts;
+use Ycs77\LaravelLineBot\Contracts\Response as ResponseContract;
 
 class LineBotServiceProvider extends ServiceProvider
 {
@@ -52,11 +52,13 @@ class LineBotServiceProvider extends ServiceProvider
         });
 
         // Set aliases
-        $this->app->alias('linebot', LineBot::class);
-        $this->app->alias('linebot.base', BaseLINEBot::class);
-        $this->app->alias('linebot.http', CurlHTTPClient::class);
-        $this->app->alias('linebot.response', ResponseContracts::class);
-        $this->app->alias('linebot.talks', TalkCollection::class);
+        $this->setAliases([
+            'linebot'          => [LineBot::class],
+            'linebot.base'     => [BaseLINEBot::class],
+            'linebot.http'     => [CurlHTTPClient::class, HTTPClient::class],
+            'linebot.response' => [Response::class, ResponseContract::class],
+            'linebot.talks'    => [TalkCollection::class],
+        ]);
 
         $this->mergeConfigFrom(__DIR__ . '/../config/linebot.php', 'linebot');
     }
@@ -73,11 +75,26 @@ class LineBotServiceProvider extends ServiceProvider
     }
 
     /**
+     * Set instances aliases.
+     *
+     * @param  array  $aliasMap
+     * @return void
+     */
+    protected function setAliases(array $aliasMap)
+    {
+        foreach ($aliasMap as $key => $aliases) {
+            foreach ($aliases as $alias) {
+                $this->app->alias($key, $alias);
+            }
+        }
+    }
+
+    /**
      * Load the Line Bot routes.
      *
      * @return void
      */
-    public function loadRoutes()
+    protected function loadRoutes()
     {
         $routes_path = base_path(config('linebot.routes_path'));
 
@@ -91,7 +108,7 @@ class LineBotServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function publishResources()
+    protected function publishResources()
     {
         $this->publishes([
             __DIR__ . '/../config/linebot.php' => config_path('linebot.php'),
