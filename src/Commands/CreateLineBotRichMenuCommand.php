@@ -101,8 +101,6 @@ class CreateLineBotRichMenuCommand extends Command
     {
         $this->error('Upload the Line Bot rich menu image is fail.');
         $this->error($response->getRawBody());
-
-        return;
     }
 
     /**
