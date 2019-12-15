@@ -95,7 +95,7 @@ class LineBotServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/linebot.php' => config_path('linebot.php'),
-            __DIR__ . '/../routes/linebot.php' => base_path(config('linebot.routes_path')),
+            // __DIR__ . '/../routes/linebot.php' => base_path(config('linebot.routes_path')),
         ]);
     }
 }

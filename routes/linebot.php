@@ -2,6 +2,6 @@
 
 use Ycs77\LaravelLineBot\Facades\LineBot;
 
-LineBot::text(function ($event) {
-    return $event;
+LineBot::text('hi', function ($event) {
+    return 'Hello world!';
 });
