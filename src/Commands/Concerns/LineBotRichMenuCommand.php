@@ -1,6 +1,6 @@
 <?php
 
-namespace Ycs77\LaravelLineBot\Commands;
+namespace Ycs77\LaravelLineBot\Commands\Concerns;
 
 use Illuminate\Config\Repository as Config;
 use Illuminate\Support\Collection;
@@ -78,17 +78,6 @@ trait LineBotRichMenuCommand
     protected function getRichMenus(Response $response)
     {
         return Collection::make($response->getJSONDecodedBody()['richmenus']);
-    }
-
-    /**
-     * Get the rich menu array from response body.
-     *
-     * @param  \LINE\LINEBot\Response  $response
-     * @return array
-     */
-    protected function getRichMenu(Response $response)
-    {
-        return $this->getRichMenus($response)->first();
     }
 
     /**

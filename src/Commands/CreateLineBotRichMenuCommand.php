@@ -8,7 +8,7 @@ use LINE\LINEBot\Response;
 
 class CreateLineBotRichMenuCommand extends Command
 {
-    use LineBotRichMenuCommand;
+    use Concerns\LineBotRichMenuCommand;
 
     /**
      * The name and signature of the console command.
@@ -38,23 +38,19 @@ class CreateLineBotRichMenuCommand extends Command
             return $this->createRichMenuFail($response);
         }
 
-        $response = $this->bot->getRichMenuList();
+        $richMenu = $response->getJSONDecodedBody();
+        $richMenuId = $richMenu['richMenuId'];
 
-        if ($this->isFail($response)) {
-            return $this->getRichMenuListFail($response);
-        }
-
-        $richMenu = $this->getRichMenu($response);
-        $response = $this->uploadRichMenuImage($richMenu);
+        $response = $this->uploadRichMenuImage($richMenuId);
 
         if ($this->isFail($response)) {
             return $this->uploadRichMenuImageFail($response);
         }
 
-        $response = $this->bot->linkRichMenu('all', $richMenu['richMenuId']);
+        $response = $this->bot->linkRichMenu('all', $richMenuId);
 
         if ($this->isFail($response)) {
-            return $this->uploadRichMenuImageFail($response);
+            return $this->linkRichMenuFail($response);
         }
 
         $this->info('Create the Line Bot rich menu is successfully.');
@@ -76,16 +72,16 @@ class CreateLineBotRichMenuCommand extends Command
     /**
      * Upload the rich menu image.
      *
-     * @param  array  $richMenu
+     * @param  string  $richMenuId
      * @return \LINE\LINEBot\Response
      */
-    protected function uploadRichMenuImage(array $richMenu)
+    protected function uploadRichMenuImage(string $richMenuId)
     {
         $imagePath = $this->argument('image');
         $contentType = $this->getImageContentType($imagePath);
 
         return $this->bot->uploadRichMenuImage(
-            $richMenu['richMenuId'],
+            $richMenuId,
             $imagePath,
             $contentType
         );
@@ -100,6 +96,18 @@ class CreateLineBotRichMenuCommand extends Command
     protected function uploadRichMenuImageFail(Response $response)
     {
         $this->error('Upload the Line Bot rich menu image is fail.');
+        $this->error($response->getRawBody());
+    }
+
+    /**
+     * Link the rich menu fail.
+     *
+     * @param  \LINE\LINEBot\Response  $response
+     * @return \LINE\LINEBot\Response
+     */
+    protected function linkRichMenuFail(Response $response)
+    {
+        $this->error('Link the rich menu is fail.');
         $this->error($response->getRawBody());
     }
 

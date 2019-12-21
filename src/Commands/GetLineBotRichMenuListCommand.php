@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 
 class GetLineBotRichMenuListCommand extends Command
 {
-    use LineBotRichMenuCommand;
+    use Concerns\LineBotRichMenuCommand;
 
     /**
      * The name and signature of the console command.

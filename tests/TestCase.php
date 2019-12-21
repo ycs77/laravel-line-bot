@@ -3,6 +3,7 @@
 namespace Ycs77\LaravelLineBot\Test;
 
 use Closure;
+use LINE\LINEBot\HTTPClient\CurlHTTPClient;
 use Mockery as m;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Ycs77\LaravelLineBot\LineBotServiceProvider;
@@ -59,5 +60,21 @@ class TestCase extends OrchestraTestCase
     protected function partialMock($abstract, Closure $mock = null)
     {
         return $this->app->instance($abstract, m::mock(...array_filter(func_get_args()))->makePartial());
+    }
+
+    /**
+     * Mock the HTTP request and response.
+     *
+     * @param  \Closure  $callback
+     * @return void
+     */
+    public function httpMock(Closure $callback)
+    {
+        $mock = m::mock(CurlHTTPClient::class, [
+            $this->app['config']->get('linebot.channel_access_token'),
+        ]);
+        $mock = call_user_func($callback, $mock);
+
+        $this->app->instance('linebot.http', $mock);
     }
 }

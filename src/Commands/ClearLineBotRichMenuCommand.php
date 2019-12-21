@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 
 class ClearLineBotRichMenuCommand extends Command
 {
-    use LineBotRichMenuCommand;
+    use Concerns\LineBotRichMenuCommand;
 
     /**
      * The name and signature of the console command.
