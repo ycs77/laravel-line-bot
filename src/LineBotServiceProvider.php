@@ -67,7 +67,6 @@ class LineBotServiceProvider extends ServiceProvider
     {
         $this->registerCommands();
         $this->publishResources();
-        $this->loadRoutes();
     }
 
     /**
@@ -100,20 +99,6 @@ class LineBotServiceProvider extends ServiceProvider
     }
 
     /**
-     * Load the Line Bot routes.
-     *
-     * @return void
-     */
-    protected function loadRoutes()
-    {
-        $routes_path = base_path(config('linebot.routes_path'));
-
-        if (file_exists($routes_path)) {
-            require $routes_path;
-        }
-    }
-
-    /**
      * Publish the Line Bot resources.
      *
      * @return void
@@ -122,7 +107,6 @@ class LineBotServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/linebot.php' => config_path('linebot.php'),
-            // __DIR__ . '/../routes/linebot.php' => base_path(config('linebot.routes_path')),
         ]);
     }
 }
