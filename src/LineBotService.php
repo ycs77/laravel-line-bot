@@ -20,12 +20,14 @@ trait LineBotService
         try {
             $signature = $this->getSignature($request);
             $body = $this->getRequestBody($request);
-            $events = $this->bot()->parseRequest($body, $signature);
+            $events = $this->basebot()->parseEventRequest($body, $signature);
         } catch (\Exception $e) {
             return $response->fail($e->getMessage());
         }
 
-        $this->reply($events);
+        if (method_exists($this, 'reply')) {
+            $this->reply($events);
+        }
 
         return $response->success();
     }
@@ -48,16 +50,6 @@ trait LineBotService
     protected function getRequestBody(Request $request)
     {
         return $request->getContent();
-    }
-
-    /**
-     * Used Line sdk reply the messages.
-     *
-     * @return void
-     */
-    protected function reply(array $events)
-    {
-        $this->bot()->reply($events);
     }
 
     /**

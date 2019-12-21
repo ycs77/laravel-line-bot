@@ -22,7 +22,6 @@ class LineBotServiceProvider extends ServiceProvider
             return new LineBot(
                 $app['linebot.base'],
                 $app['linebot.cache'],
-                $app['linebot.talks'],
                 $app['config']['linebot']
             );
         });
@@ -45,10 +44,6 @@ class LineBotServiceProvider extends ServiceProvider
 
         $this->app->singleton('linebot.response', function ($app) {
             return new Response($app[ResponseFactory::class]);
-        });
-
-        $this->app->singleton('linebot.talks', function ($app) {
-            return new TalkCollection();
         });
 
         // Set aliases
