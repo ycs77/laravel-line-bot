@@ -108,7 +108,7 @@ class LineController extends Controller
 先在 `config/linebot.php` 中設定好 `rich_menu`，和準備一張圖片後 (範例是：`"public/image.jpg"`)，執行 `linebot:richmenu:create` 命令以新增 Rich Menu：
 
 ```
-linebot:richmenu:create "public/image.jpg"
+php artisan linebot:richmenu:create "public/image.jpg"
 ```
 
 #### 查看 Rich Menu
@@ -116,13 +116,13 @@ linebot:richmenu:create "public/image.jpg"
 查看全部 Rich Menu ID：
 
 ```
-linebot:richmenu:list
+php artisan linebot:richmenu:list
 ```
 
 查看原始的全部 Rich Menu 資料：
 
 ```
-linebot:richmenu:list --raw
+php artisan linebot:richmenu:list --raw
 ```
 
 #### 刪除 Rich Menu
@@ -130,13 +130,13 @@ linebot:richmenu:list --raw
 刪除指定 Rich Menu ID：
 
 ```
-linebot:richmenu:clear richmenuid-sdg24sd56gf...
+php artisan linebot:richmenu:clear richmenuid-sdg24sd56gf...
 ```
 
 刪除指定 Rich Menu：
 
 ```
-linebot:richmenu:clear --all
+php artisan linebot:richmenu:clear --all
 ```
 
 ## 測試
