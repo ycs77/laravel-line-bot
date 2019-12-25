@@ -21,8 +21,8 @@ class LineBotServiceProvider extends ServiceProvider
         $this->app->singleton('linebot', function ($app) {
             return new LineBot(
                 $app['linebot.base'],
-                $app['linebot.cache'],
-                $app['config']['linebot']
+                $app['config'],
+                $app['cache.store']
             );
         });
 
@@ -32,10 +32,6 @@ class LineBotServiceProvider extends ServiceProvider
                 'endpointBase' => $app['config']['linebot.endpoint_base'],
                 'dataEndpointBase' => $app['config']['linebot.data_endpoint_base'],
             ]);
-        });
-
-        $this->app->singleton('linebot.cache', function ($app) {
-            return $app['cache']->store($app['config']['linebot.cache']);
         });
 
         $this->app->singleton('linebot.http', function ($app) {

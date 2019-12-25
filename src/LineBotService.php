@@ -5,6 +5,7 @@ namespace Ycs77\LaravelLineBot;
 use Illuminate\Http\Request;
 use LINE\LINEBot\Constant\HTTPHeader;
 use Ycs77\LaravelLineBot\Contracts\Response;
+use Ycs77\LaravelLineBot\Exceptions\LineRequestErrorException;
 
 trait LineBotService
 {
@@ -21,12 +22,12 @@ trait LineBotService
             $signature = $this->getSignature($request);
             $body = $this->getRequestBody($request);
             $events = $this->basebot()->parseEventRequest($body, $signature);
-        } catch (\Exception $e) {
-            return $response->fail($e->getMessage());
-        }
 
-        if (method_exists($this, 'reply')) {
-            $this->reply($events);
+            if (method_exists($this, 'reply')) {
+                $this->reply($events);
+            }
+        } catch (LineRequestErrorException $e) {
+            return $response->fail($e->getMessage());
         }
 
         return $response->success();

@@ -84,21 +84,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Cache Driver
-    |--------------------------------------------------------------------------
-    |
-    | This option controls the Line Bot default cache driver name.
-    |
-    | Reference: "config/cache.php"
-    | Supported: "apc", "array", "database", "file",
-    |            "memcached", "redis", "dynamodb"
-    |
-    */
-
-    'cache' => env('LINE_BOT_CACHE_DRIVER') ?? env('CACHE_DRIVER', 'file'),
-
-    /*
-    |--------------------------------------------------------------------------
     | Routes Path
     |--------------------------------------------------------------------------
     |
