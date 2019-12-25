@@ -47,6 +47,10 @@
             }
         }
     },
+    "scripts": {
+        "test": "phpunit",
+        "coverage": "phpunit --coverage-html build/coverage-report"
+    },
     "config": {
         "sort-packages": true
     }

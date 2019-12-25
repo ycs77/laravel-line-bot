@@ -139,6 +139,20 @@ linebot:richmenu:clear richmenuid-sdg24sd56gf...
 linebot:richmenu:clear --all
 ```
 
+## 測試
+
+運行測試：
+
+```
+composer test
+```
+
+運行指令產生測試覆蓋率報告，報告產生在 `build/coverage-report`：
+
+```
+composer coverage
+```
+
 [ico-version]: https://img.shields.io/packagist/v/ycs77/laravel-line-bot?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square
 [ico-ci]: https://img.shields.io/travis/ycs77/laravel-line-bot?style=flat-square
