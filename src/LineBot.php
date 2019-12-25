@@ -3,12 +3,7 @@
 namespace Ycs77\LaravelLineBot;
 
 use Illuminate\Cache\Repository as Cache;
-use Illuminate\Support\Arr;
 use LINE\LINEBot as BaseLINEBot;
-use LINE\LINEBot\Event\BaseEvent as LineBotEvent;
-use LINE\LINEBot\Event\MessageEvent\ImageMessage;
-use LINE\LINEBot\Event\MessageEvent\TextMessage;
-use LINE\LINEBot\MessageBuilder;
 
 /**
  * @mixen \LINE\LINEBot
