@@ -14,14 +14,14 @@ trait LineBotService
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Ycs77\LaravelLineBot\Contracts\Response  $response
-     * @return \Ycs77\LaravelLineBot\LineBot
+     * @return \Illuminate\Http\JsonResponse
      */
     protected function lineBotReply(Request $request, Response $response)
     {
         try {
             $signature = $this->getSignature($request);
             $body = $this->getRequestBody($request);
-            $events = $this->basebot()->parseEventRequest($body, $signature);
+            $events = $this->bot()->base()->parseEventRequest($body, $signature);
 
             if (method_exists($this, 'reply')) {
                 $this->reply($events);
@@ -61,15 +61,5 @@ trait LineBotService
     protected function bot()
     {
         return app(LineBot::class);
-    }
-
-    /**
-     * Get the Line official sdk Bot instance.
-     *
-     * @return \LINE\LINEBot
-     */
-    protected function basebot()
-    {
-        return $this->bot()->base();
     }
 }

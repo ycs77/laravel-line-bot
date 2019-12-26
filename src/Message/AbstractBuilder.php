@@ -104,4 +104,24 @@ abstract class AbstractBuilder
 
         return $this->bot;
     }
+
+    /**
+     * Get the message instance.
+     *
+     * @return \Ycs77\LaravelLineBot\Message\Message
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
+
+    /**
+     * Get the quick reply builder instance.
+     *
+     * @return \Ycs77\LaravelLineBot\QuickReplyBuilder
+     */
+    public function getQuickReply()
+    {
+        return $this->quickReply;
+    }
 }

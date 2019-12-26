@@ -44,7 +44,9 @@ LINE_BOT_CHANNEL_SECRET=123...
 
 ## 使用
 
-首先先新增 `LineController` 、 `webhook` 方法和 `LineBotService` Trait，並複製以下範例即可開始開發 Line Bot：
+複製以下範例為 `Controller` 即可開始開發 Line Bot：
+
+> 需要注意的是，這裡的 `Response` 是引用 `\Ycs77\LaravelLineBot\Contracts\Response`。
 
 *app/Http/Controllers/LineController.php*
 ```php
@@ -53,7 +55,10 @@ LINE_BOT_CHANNEL_SECRET=123...
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use LINE\LINEBot\Event\BaseEvent;
+use LINE\LINEBot\Event\MessageEvent\TextMessage;
 use Ycs77\LaravelLineBot\Contracts\Response;
+use Ycs77\LaravelLineBot\Facades\LineBot;
 use Ycs77\LaravelLineBot\LineBotService;
 
 class LineController extends Controller
@@ -67,28 +72,26 @@ class LineController extends Controller
 
     protected function reply(array $events)
     {
-        $bot = $this->basebot();
-
+        /** @var \LINE\LINEBot\Event\BaseEvent $event */
         foreach ($events as $event) {
+            LineBot::setEvent($event);
+
             if ($event instanceof TextMessage) {
                 switch ($event->getText()) {
-                    case 'hello':
-                        $bot->replyText($event->getReplyToken(), '哈囉！');
+                    case '嗨':
+                        LineBot::text('你好')->reply();
                         break;
 
                     default:
-                        $this->fallback($bot, $event);
+                        $this->fallback($event);
                 }
-
-            } else {
-                $this->fallback($bot, $event);
             }
         }
     }
 
-    protected function fallback($bot, $event)
+    protected function fallback(BaseEvent $event)
     {
-        $bot->replyText($event->getReplyToken(), '我不大了解您的意思...');
+        LineBot::text('我不大了解您的意思...')->reply();
     }
 }
 

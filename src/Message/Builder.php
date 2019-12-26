@@ -2,8 +2,6 @@
 
 namespace Ycs77\LaravelLineBot\Message;
 
-use Ycs77\LaravelLineBot\Message\Template;
-
 class Builder extends AbstractBuilder
 {
     /**

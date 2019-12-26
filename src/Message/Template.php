@@ -20,20 +20,6 @@ class Template implements Message, QuickReplyMessage
     protected $bot;
 
     /**
-     * The action builder instance.
-     *
-     * @var \Ycs77\LaravelLineBot\ActionBuilder
-     */
-    protected $actionBuilder;
-
-    /**
-     * The original template instance.
-     *
-     * @var \LINE\LINEBot\MessageBuilder\TemplateBuilder
-     */
-    protected $instance;
-
-    /**
      * The template alt text.
      *
      * @var string
@@ -58,10 +44,10 @@ class Template implements Message, QuickReplyMessage
      * Create a new template instance.
      *
      * @param  string|\LINE\LINEBot\MessageBuilder\TemplateMessageBuilder  $altText
-     * @param  \Closure|null  $callback
+     * @param  \Closure  $callback
      * @return void
      */
-    public function __construct(LineBot $bot, $altText, Closure $callback = null)
+    public function __construct(LineBot $bot, $altText, Closure $callback)
     {
         $this->bot = $bot;
         $this->callback = $callback;
@@ -71,20 +57,6 @@ class Template implements Message, QuickReplyMessage
         } else {
             $this->altText = $altText;
         }
-    }
-
-    /**
-     * Get the action factory instance.
-     *
-     * @return \Ycs77\LaravelLineBot\ActionBuilder
-     */
-    public function action()
-    {
-        if (!$this->actionBuilder) {
-            $this->actionBuilder = new ActionBuilder($this->bot->action());
-        }
-
-        return $this->actionBuilder;
     }
 
     /**

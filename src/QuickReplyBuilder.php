@@ -20,7 +20,7 @@ class QuickReplyBuilder
      *
      * @var array
      */
-    protected $actions;
+    protected $actions = [];
 
     /**
      * Create a new action builder instance.
