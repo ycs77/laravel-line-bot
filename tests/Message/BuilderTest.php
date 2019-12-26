@@ -27,7 +27,9 @@ class BuilderTest extends TestCase
             ],
             'template' => [
                 'template',
-                ['altText', function () {}],
+                ['altText', function () {
+                    //
+                }],
                 Template::class,
             ],
         ];

@@ -59,8 +59,7 @@ class TemplateBuilder extends AbstractBuilder
         string $imageSize = null,
         string $imageBackgroundColor = null,
         TemplateActionBuilder $defaultAction = null
-    )
-    {
+    ) {
         if (is_callable($actionBuilders)) {
             call_user_func($actionBuilders, $this->actionBuilder);
             $actionBuilders = $this->actionBuilder->get();
