@@ -16,6 +16,43 @@ use Ycs77\LaravelLineBot\QuickReplyBuilder;
 
 class LineBotTest extends TestCase
 {
+    /** @var \Ycs77\LaravelLineBot\LineBot */
+    protected $bot;
+
+    /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot */
+    protected $baseLineBot;
+
+    /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Config\Repository */
+    protected $config;
+
+    /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Cache\Repository */
+    protected $cache;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->baseLineBot = m::mock(BaseLINEBot::class);
+        $this->config = m::mock(Config::class);
+        $this->cache = m::mock(Cache::class);
+        $this->bot = $this->createBot();
+    }
+
+    public function tearDown(): void
+    {
+        $this->bot = null;
+        $this->baseLineBot = null;
+        $this->config = null;
+        $this->cache = null;
+
+        parent::tearDown();
+    }
+
+    public function createBot()
+    {
+        return new LineBot($this->baseLineBot, $this->config, $this->cache);
+    }
+
     public function testReply()
     {
         /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot\MessageBuilder\TextMessageBuilder $messageBuilder */
@@ -24,18 +61,10 @@ class LineBotTest extends TestCase
         /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Ycs77\LaravelLineBot\Contracts\Response $response */
         $response = m::mock(Response::class);
 
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot $baseLineBot */
-        $baseLineBot = m::mock(BaseLINEBot::class);
-        $baseLineBot->shouldReceive('replyMessage')
+        $this->baseLineBot->shouldReceive('replyMessage')
             ->with('token-123456', $messageBuilder)
             ->once()
             ->andReturn($response);
-
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Config\Repository $config */
-        $config = m::mock(Config::class);
-
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Cache\Repository $cache */
-        $cache = m::mock(Cache::class);
 
         /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot\Event\BaseEvent $event */
         $event = m::mock(BaseEvent::class);
@@ -43,122 +72,55 @@ class LineBotTest extends TestCase
             ->once()
             ->andReturn('token-123456');
 
-        $bot = new LineBot($baseLineBot, $config, $cache);
+        $this->assertNull($this->bot->reply($messageBuilder));
 
-        $this->assertNull($bot->reply($messageBuilder));
+        $this->bot->setEvent($event);
 
-        $bot->setEvent($event);
-
-        $this->assertSame($response, $bot->reply($messageBuilder));
+        $this->assertSame($response, $this->bot->reply($messageBuilder));
     }
 
     public function testNewBuilder()
     {
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot $baseLineBot */
-        $baseLineBot = m::mock(BaseLINEBot::class);
-
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Config\Repository $config */
-        $config = m::mock(Config::class);
-
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Cache\Repository $cache */
-        $cache = m::mock(Cache::class);
-
-        $bot = new LineBot($baseLineBot, $config, $cache);
-
-        $this->assertInstanceOf(Builder::class, $bot->query());
+        $this->assertInstanceOf(Builder::class, $this->bot->query());
     }
 
     public function testNewAction()
     {
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot $baseLineBot */
-        $baseLineBot = m::mock(BaseLINEBot::class);
-
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Config\Repository $config */
-        $config = m::mock(Config::class);
-
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Cache\Repository $cache */
-        $cache = m::mock(Cache::class);
-
-        $bot = new LineBot($baseLineBot, $config, $cache);
-
-        $this->assertInstanceOf(Action::class, $bot->action());
+        $this->assertInstanceOf(Action::class, $this->bot->action());
     }
 
     public function testGetConfig()
     {
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot $baseLineBot */
-        $baseLineBot = m::mock(BaseLINEBot::class);
-
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Config\Repository $config */
-        $config = m::mock(Config::class);
-        $config->shouldReceive('get')
+        $this->config->shouldReceive('get')
             ->with('key', null)
             ->once()
             ->andReturn('value...');
 
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Cache\Repository $cache */
-        $cache = m::mock(Cache::class);
-
-        $bot = new LineBot($baseLineBot, $config, $cache);
-
-        $this->assertSame('value...', $bot->getConfig('key'));
-        $this->assertSame($config, $bot->getConfig());
+        $this->assertSame('value...', $this->bot->getConfig('key'));
+        $this->assertSame($this->config, $this->bot->getConfig());
     }
 
     public function testGetAndSetEvent()
     {
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot $baseLineBot */
-        $baseLineBot = m::mock(BaseLINEBot::class);
-
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Config\Repository $config */
-        $config = m::mock(Config::class);
-
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Cache\Repository $cache */
-        $cache = m::mock(Cache::class);
-
         /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot\Event\BaseEvent $event */
         $event = m::mock(BaseEvent::class);
 
-        $bot = new LineBot($baseLineBot, $config, $cache);
+        $this->assertNull($this->bot->getEvent($event));
 
-        $this->assertNull($bot->getEvent($event));
+        $this->bot->setEvent($event);
 
-        $bot->setEvent($event);
-
-        $this->assertSame($event, $bot->getEvent($event));
+        $this->assertSame($event, $this->bot->getEvent($event));
     }
 
     public function testCallMagicMethodForQuery()
     {
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot $baseLineBot */
-        $baseLineBot = m::mock(BaseLINEBot::class);
-
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Config\Repository $config */
-        $config = m::mock(Config::class);
-
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Cache\Repository $cache */
-        $cache = m::mock(Cache::class);
-
-        $bot = new LineBot($baseLineBot, $config, $cache);
-
         $quickReply = m::mock(QuickReplyBuilder::class);
 
-        $this->assertInstanceOf(Builder::class, $bot->quickReply($quickReply));
+        $this->assertInstanceOf(Builder::class, $this->bot->quickReply($quickReply));
     }
 
     public function testGetBaseBotInstance()
     {
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot $baseLineBot */
-        $baseLineBot = m::mock(BaseLINEBot::class);
-
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Config\Repository $config */
-        $config = m::mock(Config::class);
-
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Illuminate\Contracts\Cache\Repository $cache */
-        $cache = m::mock(Cache::class);
-
-        $bot = new LineBot($baseLineBot, $config, $cache);
-
-        $this->assertSame($baseLineBot, $bot->base());
+        $this->assertSame($this->baseLineBot, $this->bot->base());
     }
 }
