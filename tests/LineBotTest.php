@@ -123,4 +123,16 @@ class LineBotTest extends TestCase
     {
         $this->assertSame($this->baseLineBot, $this->bot->base());
     }
+
+    public function testRoutes()
+    {
+        $event = m::mock(BaseEvent::class);
+        $events = [$event];
+
+        $this->bot->routes($events, function () {
+            //
+        });
+
+        $this->assertSame($event, $this->bot->getEvent());
+    }
 }

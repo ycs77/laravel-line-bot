@@ -2,6 +2,7 @@
 
 namespace Ycs77\LaravelLineBot;
 
+use Closure;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
 use LINE\LINEBot as BaseLINEBot;
@@ -90,6 +91,22 @@ class LineBot
     public function action()
     {
         return new Action();
+    }
+
+    /**
+     * Registration matches message routing.
+     *
+     * @param  array  $events
+     * @param  \Closure  $callback
+     * @return void
+     */
+    public function routes(array $events, Closure $callback)
+    {
+        array_map(function ($event) use ($callback) {
+            $this->setEvent($event);
+
+            call_user_func($callback, $event);
+        }, $events);
     }
 
     /**
