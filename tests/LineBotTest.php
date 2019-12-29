@@ -129,10 +129,15 @@ class LineBotTest extends TestCase
         $event = m::mock(BaseEvent::class);
         $events = [$event];
 
-        $this->bot->routes($events, function () {
-            //
+        $spy = m::spy('callback');
+
+        $this->bot->routes($events, function () use ($spy) {
+            $spy->call();
         });
 
         $this->assertSame($event, $this->bot->getEvent());
+
+        $spy->shouldHaveReceived('call')
+            ->once();
     }
 }
