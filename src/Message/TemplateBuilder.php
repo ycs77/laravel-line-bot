@@ -4,6 +4,7 @@ namespace Ycs77\LaravelLineBot\Message;
 
 use LINE\LINEBot\MessageBuilder\TemplateBuilder as OriginalTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
 use LINE\LINEBot\TemplateActionBuilder;
 use Ycs77\LaravelLineBot\ActionBuilder;
 use Ycs77\LaravelLineBot\Exceptions\LineRequestErrorException;
@@ -75,6 +76,25 @@ class TemplateBuilder extends AbstractBuilder
             $imageBackgroundColor,
             $defaultAction
         );
+
+        return $this;
+    }
+
+    /**
+     * Add the confirm template message.
+     *
+     * @param  string  $text
+     * @param  \LINE\LINEBot\TemplateActionBuilder[]|callable  $actionBuilders
+     * @return self
+     */
+    public function confirm(string $text, $actionBuilders)
+    {
+        if (is_callable($actionBuilders)) {
+            call_user_func($actionBuilders, $this->actionBuilder);
+            $actionBuilders = $this->actionBuilder->get();
+        }
+
+        $this->template = new ConfirmTemplateBuilder($text, $actionBuilders);
 
         return $this;
     }

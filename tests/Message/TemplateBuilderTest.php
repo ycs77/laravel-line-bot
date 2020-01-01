@@ -3,6 +3,8 @@
 namespace Ycs77\LaravelLineBot\Test\Message;
 
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ButtonTemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\ConfirmTemplateBuilder;
+use LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;
 use LINE\LINEBot\TemplateActionBuilder\UriTemplateActionBuilder;
 use Mockery as m;
 use Ycs77\LaravelLineBot\Action;
@@ -14,9 +16,9 @@ use Ycs77\LaravelLineBot\Test\TestCase;
 
 class TemplateBuilderTest extends TestCase
 {
-    public function testAddButtonMessageBuilder()
+    public function testAddButtonTemplateBuilder()
     {
-        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Ycs77\LaravelLineBot\Action $bot */
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Ycs77\LaravelLineBot\Action $action */
         $action = m::mock(Action::class);
         $action->shouldReceive('url')
             ->with('Laravel line bot Github', 'https://github.com/ycs77/laravel-line-bot', null)
@@ -39,6 +41,35 @@ class TemplateBuilderTest extends TestCase
         });
 
         $this->assertInstanceOf(ButtonTemplateBuilder::class, $template->getTemplate());
+    }
+
+    public function testAddConfirmTemplateBuilder()
+    {
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Ycs77\LaravelLineBot\Action $action */
+        $action = m::mock(Action::class);
+        $action->shouldReceive('message')
+            ->with('Yes', null)
+            ->once()
+            ->andReturn(m::mock(MessageTemplateActionBuilder::class));
+        $action->shouldReceive('message')
+            ->with('No', null)
+            ->once()
+            ->andReturn(m::mock(MessageTemplateActionBuilder::class));
+
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Ycs77\LaravelLineBot\LineBot $bot */
+        $bot = m::mock(LineBot::class);
+        $bot->shouldReceive('action')
+            ->once()
+            ->andReturn($action);
+
+        $template = new TemplateBuilder($bot);
+
+        $template->confirm('text', function (ActionBuilder $action) {
+            $action->message('Yes');
+            $action->message('No');
+        });
+
+        $this->assertInstanceOf(ConfirmTemplateBuilder::class, $template->getTemplate());
     }
 
     public function testGetTemplateThrowException()
