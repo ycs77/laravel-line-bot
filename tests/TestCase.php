@@ -3,6 +3,8 @@
 namespace Ycs77\LaravelLineBot\Test;
 
 use Closure;
+use Illuminate\Http\Request;
+use LINE\LINEBot\Constant\HTTPHeader;
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
 use Mockery as m;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
@@ -76,5 +78,13 @@ class TestCase extends OrchestraTestCase
         $mock = call_user_func($callback, $mock);
 
         $this->app->instance('linebot.http', $mock);
+    }
+
+    public function createRequest(string $signature, string $content)
+    {
+        $request = new Request([], [], [], [], [], [], $content);
+        $request->headers->set(HTTPHeader::LINE_SIGNATURE, $signature);
+
+        return $request;
     }
 }

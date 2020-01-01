@@ -48,7 +48,6 @@ class LineBotServiceProvider extends ServiceProvider
             'linebot.base'     => [BaseLINEBot::class],
             'linebot.http'     => [CurlHTTPClient::class, HTTPClient::class],
             'linebot.response' => [Response::class, ResponseContract::class],
-            'linebot.talks'    => [TalkCollection::class],
         ]);
 
         $this->mergeConfigFrom(__DIR__ . '/../config/linebot.php', 'linebot');

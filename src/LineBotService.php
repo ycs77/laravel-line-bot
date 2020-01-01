@@ -23,9 +23,7 @@ trait LineBotService
             $body = $this->getRequestBody($request);
             $events = $this->bot()->base()->parseEventRequest($body, $signature);
 
-            if (method_exists($this, 'reply')) {
-                $this->reply($events);
-            }
+            $this->reply($events);
         } catch (LineRequestErrorException $e) {
             return $response->fail($e->getMessage());
         }
@@ -54,11 +52,22 @@ trait LineBotService
     }
 
     /**
+     * Reply the messages.
+     *
+     * @param  array  $events
+     * @return void
+     */
+    protected function reply(array $events)
+    {
+        //
+    }
+
+    /**
      * Get the Line Bot instance.
      *
      * @return \Ycs77\LaravelLineBot\LineBot
      */
-    protected function bot()
+    public function bot()
     {
         return app(LineBot::class);
     }

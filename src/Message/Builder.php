@@ -2,6 +2,8 @@
 
 namespace Ycs77\LaravelLineBot\Message;
 
+use Closure;
+
 class Builder extends AbstractBuilder
 {
     /**
@@ -21,10 +23,10 @@ class Builder extends AbstractBuilder
      * Add the template message.
      *
      * @param  string|\LINE\LINEBot\MessageBuilder\TemplateMessageBuilder  $altText
-     * @param  callable|null  $altText
+     * @param  \Closure  $callback
      * @return self
      */
-    public function template($altText, callable $callback = null)
+    public function template($altText, Closure $callback)
     {
         $this->message = new Template($this->bot, $altText, $callback);
 

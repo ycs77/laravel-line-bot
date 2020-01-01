@@ -103,6 +103,6 @@ trait LineBotRichMenuCommand
      */
     protected function isFail(Response $response)
     {
-        return $response->getHTTPStatus() !== 200;
+        return !$response->isSucceeded();
     }
 }
