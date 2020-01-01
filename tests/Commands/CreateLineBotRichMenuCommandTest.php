@@ -14,8 +14,8 @@ class CreateLineBotRichMenuCommandTest extends TestCase
 
         $this->app['config']->set('linebot.rich_menu', [
             'size' => [
-              'width' => 2500,
-              'height' => 1686,
+                'width' => 2500,
+                'height' => 1686,
             ],
             'selected' => false,
             'name' => 'Nice richmenu',
@@ -76,8 +76,8 @@ class CreateLineBotRichMenuCommandTest extends TestCase
         });
 
         $this->artisan('linebot:richmenu:create', [
-                'image' => 'public/images/image.jpg',
-            ])
+            'image' => 'public/images/image.jpg',
+        ])
             ->expectsOutput('Create the Line Bot rich menu is successfully.')
             ->assertExitCode(0);
     }
@@ -99,8 +99,8 @@ class CreateLineBotRichMenuCommandTest extends TestCase
         });
 
         $this->artisan('linebot:richmenu:create', [
-                'image' => 'public/images/image.jpg',
-            ])
+            'image' => 'public/images/image.jpg',
+        ])
             ->assertExitCode(0);
     }
 
@@ -135,8 +135,8 @@ class CreateLineBotRichMenuCommandTest extends TestCase
         });
 
         $this->artisan('linebot:richmenu:create', [
-                'image' => 'public/images/image.jpg',
-            ])
+            'image' => 'public/images/image.jpg',
+        ])
             ->assertExitCode(0);
     }
 
@@ -178,8 +178,8 @@ class CreateLineBotRichMenuCommandTest extends TestCase
         });
 
         $this->artisan('linebot:richmenu:create', [
-                'image' => 'public/images/image.jpg',
-            ])
+            'image' => 'public/images/image.jpg',
+        ])
             ->assertExitCode(0);
     }
 }

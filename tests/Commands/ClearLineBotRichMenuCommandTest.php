@@ -29,8 +29,8 @@ class ClearLineBotRichMenuCommandTest extends TestCase
         });
 
         $this->artisan('linebot:richmenu:clear', [
-                'id' => ['richmenu-1', 'richmenu-2'],
-            ])
+            'id' => ['richmenu-1', 'richmenu-2'],
+        ])
             ->expectsOutput('Clear the Line Bot rich menu is successfully.')
             ->assertExitCode(0);
     }
