@@ -11,7 +11,6 @@ use LINE\LINEBot\Event\BaseEvent;
 use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use LINE\LINEBot\Response as LineResponse;
 use Mockery as m;
-use Mockery\MockInterface;
 use Ycs77\LaravelLineBot\Action;
 use Ycs77\LaravelLineBot\Contracts\Event;
 use Ycs77\LaravelLineBot\Contracts\Response;
