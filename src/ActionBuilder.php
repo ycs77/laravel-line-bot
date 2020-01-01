@@ -45,7 +45,6 @@ class ActionBuilder
      * Add a new action button.
      *
      * @param  \LINE\LINEBot\TemplateActionBuilder  $actionBuilder
-     * @param  string|null  $imageUrl
      * @return self
      */
     public function add(TemplateActionBuilder $actionBuilder)
@@ -60,7 +59,6 @@ class ActionBuilder
      *
      * @param  string  $label
      * @param  string|null  $text
-     * @param  string|null  $imageUrl
      * @return self
      */
     public function message(string $label, string $text = null)
@@ -74,7 +72,6 @@ class ActionBuilder
      * @param  string  $label
      * @param  string  $uri
      * @param  string|null  $alt
-     * @param  string|null  $imageUrl
      * @return self
      */
     public function url(string $label, string $uri, string $alt = null)
@@ -88,7 +85,6 @@ class ActionBuilder
      * @param  string  $label
      * @param  string  $data
      * @param  string|null  $displayText
-     * @param  string|null  $imageUrl
      * @return self
      */
     public function postback(string $label, string $data, string $displayText = null)
@@ -100,7 +96,6 @@ class ActionBuilder
      * Add a location action button.
      *
      * @param  string  $label
-     * @param  string|null  $imageUrl
      * @return self
      */
     public function location(string $label)
@@ -117,7 +112,6 @@ class ActionBuilder
      * @param  string|null  $initial
      * @param  string|null  $max
      * @param  string|null  $min
-     * @param  string|null  $imageUrl
      * @return self
      */
     public function datetimePicker(string $label, string $data, string $mode, string $initial = null, string $max = null, string $min = null)
@@ -129,7 +123,6 @@ class ActionBuilder
      * Add a camera action button.
      *
      * @param  string  $label
-     * @param  string|null  $imageUrl
      * @return self
      */
     public function camera(string $label)
@@ -141,7 +134,6 @@ class ActionBuilder
      * Add a camera roll action button.
      *
      * @param  string  $label
-     * @param  string|null  $imageUrl
      * @return self
      */
     public function cameraRoll(string $label)
