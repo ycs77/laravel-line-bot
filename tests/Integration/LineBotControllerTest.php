@@ -5,8 +5,8 @@ namespace Ycs77\LaravelLineBot\Test\Integration;
 use LINE\LINEBot\Response as LineResponse;
 use Mockery\MockInterface;
 use Ycs77\LaravelLineBot\Response;
-use Ycs77\LaravelLineBot\Test\Stubs\SimpleStubController;
-use Ycs77\LaravelLineBot\Test\Stubs\StubController;
+use Ycs77\LaravelLineBot\Test\Stubs\Controllers\SimpleStubController;
+use Ycs77\LaravelLineBot\Test\Stubs\Controllers\StubController;
 use Ycs77\LaravelLineBot\Test\TestCase;
 
 class LineBotControllerTest extends TestCase
@@ -16,10 +16,7 @@ class LineBotControllerTest extends TestCase
         parent::setUp();
 
         $this->app['config']->set('app.debug', true);
-        $this->app['config']->set('linebot', [
-            'channel_access_token' => 'token_123456',
-            'channel_secret' => 'secret_123456',
-        ]);
+        $this->app->setBasePath(__DIR__ . '/../Stubs');
     }
 
     public function testReplyMessage()

@@ -86,6 +86,7 @@ class LineBotServiceProvider extends ServiceProvider
     public function registerCommands()
     {
         $this->commands([
+            Commands\InstallCommand::class,
             Commands\CreateLineBotRichMenuCommand::class,
             Commands\GetLineBotRichMenuListCommand::class,
             Commands\ClearLineBotRichMenuCommand::class,

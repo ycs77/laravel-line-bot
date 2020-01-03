@@ -1,0 +1,11 @@
+<?php
+
+use Ycs77\LaravelLineBot\Facades\LineBot;
+
+LineBot::on()->text('嗨', function () {
+    LineBot::text('你好')->reply();
+});
+
+LineBot::on()->fallback(function () {
+    LineBot::text('我不大了解您的意思...')->reply();
+});

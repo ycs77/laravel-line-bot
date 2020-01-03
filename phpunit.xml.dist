@@ -19,6 +19,7 @@
             <directory suffix=".php">./src</directory>
             <exclude>
                 <file>./src/LineBotServiceProvider.php</file>
+                <file>./src/Commands/InstallCommand.php</file>
                 <directory>./src/Contracts</directory>
                 <directory>./src/Exceptions</directory>
                 <directory>./src/Facades</directory>

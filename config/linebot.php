@@ -55,6 +55,8 @@ return [
     | Use `php artisan linebot:richmenu:create "public/image.jpg"` to create
     | a new rich menu.
     |
+    | See: https://developers.line.biz/en/docs/messaging-api/using-rich-menus/
+    |
     */
 
     'rich_menu' => [

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ycs77\LaravelLineBot\Test\Stubs;
+namespace Ycs77\LaravelLineBot\Test\Stubs\Controllers;
 
 use Illuminate\Http\Request;
 use Ycs77\LaravelLineBot\Contracts\Response;

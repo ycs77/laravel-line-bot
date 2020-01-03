@@ -34,10 +34,11 @@ class TestCase extends OrchestraTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('linebot.channel_access_token', 'Foo');
-        $app['config']->set('linebot.channel_secret', 'Bar');
+        $app['config']->set('linebot.channel_access_token', 'token_123456');
+        $app['config']->set('linebot.channel_secret', 'secret_123456');
         $app['config']->set('linebot.endpoint_base', 'https://api.line.me');
         $app['config']->set('linebot.data_endpoint_base', 'https://api-data.line.me');
+        $app['config']->set('linebot.routes_path', 'routes/linebot.php');
     }
 
     /**
