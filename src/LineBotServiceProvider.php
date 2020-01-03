@@ -42,7 +42,6 @@ class LineBotServiceProvider extends ServiceProvider
             return new Response($app[ResponseFactory::class]);
         });
 
-        // Set aliases
         $this->setAliases([
             'linebot'          => [LineBot::class],
             'linebot.base'     => [BaseLINEBot::class],
