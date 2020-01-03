@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Ycs77\LaravelLineBot\LineBot setEvent(\Ycs77\LaravelLineBot\Contracts\Event $event)
  * @method static \LINE\LINEBot base()
  * @method static \Ycs77\LaravelLineBot\Message\Builder text(string $message)
- * @method static \Ycs77\LaravelLineBot\Message\Builder template(string|\LINE\LINEBot\MessageBuilder\TemplateMessageBuilder $altText, callable|null $callback = null)
+ * @method static \Ycs77\LaravelLineBot\Message\Builder template(string|\LINE\LINEBot\MessageBuilder\TemplateMessageBuilder $altText, callable $callback)
  * @method static \Ycs77\LaravelLineBot\Message\Builder quickReply(callable|\Ycs77\LaravelLineBot\QuickReply $value)
  *
  * @see \Ycs77\LaravelLineBot\LineBot
