@@ -160,6 +160,8 @@ class LineBot
      * @param  string  $messageId
      * @param  string  $filePath
      * @return \Illuminate\Http\File
+     *
+     * @throws \Ycs77\LaravelLineBot\Exceptions\LineRequestErrorException
      */
     public function file(string $messageId, string $filePath = 'linebot')
     {
