@@ -16,8 +16,8 @@ use Ycs77\LaravelLineBot\Message\Builder;
 
 /**
  * @method static \Ycs77\LaravelLineBot\Message\Builder text(string $message)
- * @method static \Ycs77\LaravelLineBot\Message\Builder template(string|\LINE\LINEBot\MessageBuilder\TemplateMessageBuilder $altText, callable|null $callback = null)
- * @method static \Ycs77\LaravelLineBot\Message\Builder quickReply(callable|\Ycs77\LaravelLineBot\QuickReply $value)
+ * @method static \Ycs77\LaravelLineBot\Message\Builder template(string|\LINE\LINEBot\MessageBuilder\TemplateMessageBuilder $altText, \Closure $callback)
+ * @method static \Ycs77\LaravelLineBot\Message\Builder quickReply(\Ycs77\LaravelLineBot\QuickReply|\Closure $value)
  *
  * @see \Ycs77\LaravelLineBot\Message\Builder
  */

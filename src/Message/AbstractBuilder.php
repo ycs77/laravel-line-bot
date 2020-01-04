@@ -2,6 +2,7 @@
 
 namespace Ycs77\LaravelLineBot\Message;
 
+use Closure;
 use Ycs77\LaravelLineBot\Contracts\Message;
 use Ycs77\LaravelLineBot\Contracts\QuickReplyMessage;
 use Ycs77\LaravelLineBot\Exceptions\LineRequestErrorException;
@@ -44,14 +45,14 @@ abstract class AbstractBuilder
     /**
      * Add the quick reply messages.
      *
-     * @param  \Ycs77\LaravelLineBot\QuickReplyBuilder|callable  $value
+     * @param  \Ycs77\LaravelLineBot\QuickReplyBuilder|\Closure  $value
      * @return self
      */
     public function quickReply($value)
     {
         if ($value instanceof QuickReplyBuilder) {
             $this->quickReply = $value;
-        } elseif (is_callable($value)) {
+        } elseif ($value instanceof Closure) {
             $this->quickReply = new QuickReplyBuilder($this->bot->action());
             call_user_func($value, $this->quickReply);
         }
