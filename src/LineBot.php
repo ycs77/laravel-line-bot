@@ -177,6 +177,37 @@ class LineBot
     }
 
     /**
+     * Get Line user profile.
+     *
+     * @return \Ycs77\LaravelLineBot\User|null
+     *
+     * @throws \Ycs77\LaravelLineBot\Exceptions\LineRequestErrorException
+     */
+    public function profile()
+    {
+        if (!$this->event) {
+            throw new LineRequestErrorException('Error with getting LineBot message content');
+        }
+
+        $userId = $this->event->base()->getUserId();
+
+        if (!$userContent = $this->cache->get("linebot.profile.$userId")) {
+            $response = $this->bot->getProfile($userId);
+
+            if (!$response->isSucceeded()) {
+                throw new LineRequestErrorException('Error with getting Line profile');
+            }
+
+            $userContent = $response->getJSONDecodedBody();
+            $ttl = now()->addMinutes($this->config->get('linebot.cache_ttl', 120));
+
+            $this->cache->put("linebot.profile.$userId", $userContent, $ttl);
+        }
+
+        return new User($userContent);
+    }
+
+    /**
      * Begin querying the Line Bot message.
      *
      * @return \Ycs77\LaravelLineBot\Message\Builder

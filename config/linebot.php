@@ -112,4 +112,16 @@ return [
         'enabled' => false,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Cache TTL
+    |--------------------------------------------------------------------------
+    |
+    | This config is setting the number of minutes for the Line Bot cache
+    | time to live.
+    |
+    */
+
+    'cache_ttl' => 120,
+
 ];

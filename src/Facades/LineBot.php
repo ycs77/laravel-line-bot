@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static void routes(array $events, \Closure $callback)
  * @method static array eventTransform(array $events)
  * @method static \Illuminate\Http\File file(string $messageId, string $filePath)
+ * @method static \Ycs77\LaravelLineBot\User|null profile()
  * @method static \Ycs77\LaravelLineBot\Message\Builder say()
  * @method static \Ycs77\LaravelLineBot\Action action()
  * @method static \Ycs77\LaravelLineBot\MessageRouter on()
