@@ -8,7 +8,7 @@ use Mockery as m;
 use Mockery\MockInterface;
 use Ycs77\LaravelLineBot\Contracts\Event;
 use Ycs77\LaravelLineBot\Test\TestCase;
-use Ycs77\LaravelLineBot\User as LineUser;
+use Ycs77\LaravelLineBot\Profile;
 
 class LineBotTest extends TestCase
 {
@@ -112,13 +112,13 @@ class LineBotTest extends TestCase
 
         $this->assertNull($this->cache()->get('linebot.profile.UID12345678'));
 
-        $user = $this->bot()->profile();
+        $profile = $this->bot()->profile();
 
-        $this->assertInstanceOf(LineUser::class, $user);
-        $this->assertSame('UID12345678', $user->id());
-        $this->assertSame('Lucas', $user->name());
-        $this->assertSame('https://example.com/image/path...', $user->picture());
-        $this->assertSame('Hello world!', $user->status());
+        $this->assertInstanceOf(Profile::class, $profile);
+        $this->assertSame('UID12345678', $profile->id());
+        $this->assertSame('Lucas', $profile->name());
+        $this->assertSame('https://example.com/image/path...', $profile->picture());
+        $this->assertSame('Hello world!', $profile->status());
         $this->assertSame($expectedCacheUserContent, $this->cache()->get('linebot.profile.UID12345678'));
     }
 }

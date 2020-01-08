@@ -24,8 +24,8 @@ use Ycs77\LaravelLineBot\Matching\MatchedMessage;
 use Ycs77\LaravelLineBot\Matching\Matcher;
 use Ycs77\LaravelLineBot\Message\Builder;
 use Ycs77\LaravelLineBot\MessageRouter;
+use Ycs77\LaravelLineBot\Profile;
 use Ycs77\LaravelLineBot\QuickReplyBuilder;
-use Ycs77\LaravelLineBot\User as LineUser;
 
 class LineBotTest extends TestCase
 {
@@ -366,13 +366,13 @@ class LineBotTest extends TestCase
 
         $this->bot->setEvent($event);
 
-        $user = $this->bot->profile();
+        $profile = $this->bot->profile();
 
-        $this->assertInstanceOf(LineUser::class, $user);
-        $this->assertSame('UID12345678', $user->id());
-        $this->assertSame('Lucas', $user->name());
-        $this->assertSame('https://example.com/image/path...', $user->picture());
-        $this->assertSame('Hello world!', $user->status());
+        $this->assertInstanceOf(Profile::class, $profile);
+        $this->assertSame('UID12345678', $profile->id());
+        $this->assertSame('Lucas', $profile->name());
+        $this->assertSame('https://example.com/image/path...', $profile->picture());
+        $this->assertSame('Hello world!', $profile->status());
     }
 
     public function testGetProfileFromCache()
@@ -410,19 +410,19 @@ class LineBotTest extends TestCase
 
         $this->bot->setEvent($event);
 
-        $user = $this->bot->profile();
+        $profile = $this->bot->profile();
 
-        $this->assertInstanceOf(LineUser::class, $user);
-        $this->assertSame('UID12345678', $user->id());
-        $this->assertSame('Lucas', $user->name());
-        $this->assertSame('https://example.com/image/path...', $user->picture());
-        $this->assertSame('Hello world!', $user->status());
+        $this->assertInstanceOf(Profile::class, $profile);
+        $this->assertSame('UID12345678', $profile->id());
+        $this->assertSame('Lucas', $profile->name());
+        $this->assertSame('https://example.com/image/path...', $profile->picture());
+        $this->assertSame('Hello world!', $profile->status());
     }
 
     public function testGetProfileThrowMissingEventError()
     {
         $this->expectException(LineRequestErrorException::class);
-        $this->expectExceptionMessage('Error with getting LineBot message content');
+        $this->expectExceptionMessage('The LineBot event missing');
 
         $this->bot->profile();
     }

@@ -2,17 +2,17 @@
 
 namespace Ycs77\LaravelLineBot;
 
-class User
+class Profile
 {
     /**
-     * The user coontent.
+     * The user profile coontent.
      *
      * @var array
      */
     protected $content;
 
     /**
-     * Create a new Line Bot user instance.
+     * Create a new Line Bot user profile instance.
      *
      * @param  array  $content
      * @return void
@@ -23,7 +23,7 @@ class User
     }
 
     /**
-     * Get the user id.
+     * Get the user profile id.
      *
      * @return string|null
      */
@@ -33,7 +33,7 @@ class User
     }
 
     /**
-     * Get the user display name.
+     * Get the user profile display name.
      *
      * @return string|null
      */
@@ -43,7 +43,7 @@ class User
     }
 
     /**
-     * Get the user picture url.
+     * Get the user profile picture url.
      *
      * @return string|null
      */
@@ -53,7 +53,7 @@ class User
     }
 
     /**
-     * Get the user status message.
+     * Get the user profile status message.
      *
      * @return string|null
      */

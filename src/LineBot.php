@@ -179,14 +179,14 @@ class LineBot
     /**
      * Get Line user profile.
      *
-     * @return \Ycs77\LaravelLineBot\User|null
+     * @return \Ycs77\LaravelLineBot\Profile|null
      *
      * @throws \Ycs77\LaravelLineBot\Exceptions\LineRequestErrorException
      */
     public function profile()
     {
         if (!$this->event) {
-            throw new LineRequestErrorException('Error with getting LineBot message content');
+            throw new LineRequestErrorException('The LineBot event missing');
         }
 
         $userId = $this->event->base()->getUserId();
@@ -204,7 +204,7 @@ class LineBot
             $this->cache->put("linebot.profile.$userId", $userContent, $ttl);
         }
 
-        return new User($userContent);
+        return new Profile($userContent);
     }
 
     /**
