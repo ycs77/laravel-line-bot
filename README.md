@@ -325,12 +325,45 @@ LineBot::on()->text('profile', function () {
 
 > 詳細配置請參考 [Line 官方說明：Using rich menus](https://developers.line.biz/en/docs/messaging-api/using-rich-menus/)
 
-1. 準備一張圖片 (範例中圖片路徑為 `"public/image.jpg"`)
-2. 在 `config/linebot.php` 中設定 `rich_menu` 的設定 (建議可以使用 [LINE Bot Designer](https://developers.line.biz/en/services/bot-designer/) 來產生)
-3. 執行 `linebot:richmenu:create` 命令新增 Rich Menu 和上傳圖片：
-    ```
-    php artisan linebot:richmenu:create "public/image.jpg"
-    ```
+準備一張 Rich Menu 的圖片
+
+在 `config/linebot.php` 中設定 `rich_menu` 的設定 (建議可以使用 [LINE Bot Designer](https://developers.line.biz/en/services/bot-designer/) 來產生)。每個 Rich Menu 都要設定對應的 key (跟 Line 官方沒有關係，只是用來辨識 Rich Menu 而已)，例如範例將 key 設定為 `rich_menu_1`：
+
+*routes/linebot.php*
+```php
+'rich_menus' => [
+    'rich_menu_1' => [
+        'size' => [
+            'width' => 2500,
+            'height' => 1686,
+        ],
+        'selected' => false,
+        'name' => '我的 Rich Menu',
+        'chatBarText' => '開啟選單',
+        'areas' => [
+            [
+                'bounds' => [
+                    'x' => 0,
+                    'y' => 0,
+                    'width' => 2500,
+                    'height' => 1686,
+                ],
+                'action' => [
+                    'type' => 'message',
+                    'label' => 'Rich Menu',
+                    'text' => 'Rich Menu',
+                ],
+            ],
+        ],
+    ],
+],
+```
+
+執行 `linebot:richmenu:create` 命令新增 Rich Menu 和上傳圖片，參數需要 Rich Menu 的 key (上方 config 設定) 和圖片路徑 (範例圖片路徑為 `"public/image.jpg"`)：
+
+```
+php artisan linebot:richmenu:create rich_menu_1 "public/image.jpg"
+```
 
 #### 查看 Rich Menu
 

@@ -16,6 +16,7 @@ class CreateLineBotRichMenuCommand extends Command
      * @var string
      */
     protected $signature = 'linebot:richmenu:create
+                            {name : The rich menu alias name to create. ex: rich_menu_1}
                             {image : The rich menu image. ex: "public/images/image.jpg"}';
 
     /**
@@ -32,7 +33,15 @@ class CreateLineBotRichMenuCommand extends Command
      */
     public function handle()
     {
-        $response = $this->createRichMenu();
+        $richmenuName = $this->argument('name');
+
+        if (!array_key_exists($richmenuName, $this->config->get('rich_menus'))) {
+            $this->error('The Rich Menu name is not exists.');
+
+            return;
+        }
+
+        $response = $this->createRichMenu($richmenuName);
 
         if ($this->isFail($response)) {
             return $this->createRichMenuFail($response);
@@ -61,9 +70,9 @@ class CreateLineBotRichMenuCommand extends Command
      *
      * @return \LINE\LINEBot\Response
      */
-    protected function createRichMenu()
+    protected function createRichMenu(string $name)
     {
-        $richmenuConfig = $this->config->get('rich_menu');
+        $richmenuConfig = $this->config->get('rich_menus')[$name];
         $richmenuUrl = $this->config->get('endpoint_base') . '/v2/bot/richmenu';
 
         return $this->http->post($richmenuUrl, $richmenuConfig);

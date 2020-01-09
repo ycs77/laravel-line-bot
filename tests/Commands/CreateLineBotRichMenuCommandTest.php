@@ -12,26 +12,28 @@ class CreateLineBotRichMenuCommandTest extends TestCase
     {
         parent::setUp();
 
-        $this->app['config']->set('linebot.rich_menu', [
-            'size' => [
-                'width' => 2500,
-                'height' => 1686,
-            ],
-            'selected' => false,
-            'name' => 'Nice richmenu',
-            'chatBarText' => 'Tap here',
-            'areas' => [
-                [
-                    'bounds' => [
-                        'x' => 0,
-                        'y' => 0,
-                        'width' => 2500,
-                        'height' => 1686,
-                    ],
-                    'action' => [
-                        'type' => 'message',
-                        'label' => 'Message',
-                        'text' => 'Message',
+        $this->app['config']->set('linebot.rich_menus', [
+            'rich_menu_1' => [
+                'size' => [
+                    'width' => 2500,
+                    'height' => 1686,
+                ],
+                'selected' => false,
+                'name' => 'Nice richmenu',
+                'chatBarText' => 'Tap here',
+                'areas' => [
+                    [
+                        'bounds' => [
+                            'x' => 0,
+                            'y' => 0,
+                            'width' => 2500,
+                            'height' => 1686,
+                        ],
+                        'action' => [
+                            'type' => 'message',
+                            'label' => 'Message',
+                            'text' => 'Message',
+                        ],
                     ],
                 ],
             ],
@@ -46,7 +48,7 @@ class CreateLineBotRichMenuCommandTest extends TestCase
             $mock->shouldReceive('post')
                 ->with(
                     'https://api.line.me/v2/bot/richmenu',
-                    $this->app['config']->get('linebot.rich_menu')
+                    $this->app['config']->get('linebot.rich_menus')['rich_menu_1']
                 )
                 ->once()
                 ->andReturn($response);
@@ -76,6 +78,7 @@ class CreateLineBotRichMenuCommandTest extends TestCase
         });
 
         $this->artisan('linebot:richmenu:create', [
+            'name' => 'rich_menu_1',
             'image' => 'public/images/image.jpg',
         ])
             ->expectsOutput('Create the Line Bot rich menu is successfully.')
@@ -90,7 +93,7 @@ class CreateLineBotRichMenuCommandTest extends TestCase
             $mock->shouldReceive('post')
                 ->with(
                     'https://api.line.me/v2/bot/richmenu',
-                    $this->app['config']->get('linebot.rich_menu')
+                    $this->app['config']->get('linebot.rich_menus')['rich_menu_1']
                 )
                 ->once()
                 ->andReturn($response);
@@ -99,8 +102,19 @@ class CreateLineBotRichMenuCommandTest extends TestCase
         });
 
         $this->artisan('linebot:richmenu:create', [
+            'name' => 'rich_menu_1',
             'image' => 'public/images/image.jpg',
         ])
+            ->assertExitCode(0);
+    }
+
+    public function testCreateRichMenuNameNotExists()
+    {
+        $this->artisan('linebot:richmenu:create', [
+            'name' => 'not_exists_rich_menu',
+            'image' => 'public/images/image.jpg',
+        ])
+            ->expectsOutput('The Rich Menu name is not exists.')
             ->assertExitCode(0);
     }
 
@@ -112,7 +126,7 @@ class CreateLineBotRichMenuCommandTest extends TestCase
             $mock->shouldReceive('post')
                 ->with(
                     'https://api.line.me/v2/bot/richmenu',
-                    $this->app['config']->get('linebot.rich_menu')
+                    $this->app['config']->get('linebot.rich_menus')['rich_menu_1']
                 )
                 ->once()
                 ->andReturn($response);
@@ -135,6 +149,7 @@ class CreateLineBotRichMenuCommandTest extends TestCase
         });
 
         $this->artisan('linebot:richmenu:create', [
+            'name' => 'rich_menu_1',
             'image' => 'public/images/image.jpg',
         ])
             ->assertExitCode(0);
@@ -148,7 +163,7 @@ class CreateLineBotRichMenuCommandTest extends TestCase
             $mock->shouldReceive('post')
                 ->with(
                     'https://api.line.me/v2/bot/richmenu',
-                    $this->app['config']->get('linebot.rich_menu')
+                    $this->app['config']->get('linebot.rich_menus')['rich_menu_1']
                 )
                 ->once()
                 ->andReturn($response);
@@ -178,6 +193,7 @@ class CreateLineBotRichMenuCommandTest extends TestCase
         });
 
         $this->artisan('linebot:richmenu:create', [
+            'name' => 'rich_menu_1',
             'image' => 'public/images/image.jpg',
         ])
             ->assertExitCode(0);

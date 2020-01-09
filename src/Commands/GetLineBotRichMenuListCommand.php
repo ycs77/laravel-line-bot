@@ -38,16 +38,20 @@ class GetLineBotRichMenuListCommand extends Command
 
         if ($this->option('raw')) {
             $this->info($response->getRawBody());
-        } else {
-            $richMenuIds = $this->getRichMenuIds($response);
 
-            if (count($richMenuIds)) {
-                foreach ($this->getRichMenuIds($response) as $richMenuId) {
-                    $this->info($richMenuId);
-                }
-            } else {
-                $this->info('The rich menu is empty.');
-            }
+            return;
         }
+
+        $richMenuIds = $this->getRichMenuIds($response);
+
+        if (count($richMenuIds)) {
+            foreach ($this->getRichMenuIds($response) as $richMenuId) {
+                $this->info($richMenuId);
+            }
+
+            return;
+        }
+
+        $this->info('The rich menu is empty.');
     }
 }

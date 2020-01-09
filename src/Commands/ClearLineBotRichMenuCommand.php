@@ -31,6 +31,10 @@ class ClearLineBotRichMenuCommand extends Command
      */
     public function handle()
     {
+        if (!$this->option('all') && count($this->argument('id')) === 0) {
+            return $this->error('The id is fail.');
+        }
+
         if ($this->option('all')) {
             $response = $this->bot->getRichMenuList();
 
@@ -39,10 +43,8 @@ class ClearLineBotRichMenuCommand extends Command
             }
 
             $richMenuIds = $this->getRichMenuIds($response);
-        } elseif (count($this->argument('id'))) {
-            $richMenuIds = $this->argument('id');
         } else {
-            return $this->error('The id is fail.');
+            $richMenuIds = $this->argument('id');
         }
 
         foreach ($richMenuIds as $richMenuId) {

@@ -55,30 +55,35 @@ return [
     | Use `php artisan linebot:richmenu:create "public/image.jpg"` to create
     | a new rich menu.
     |
-    | See: https://developers.line.biz/en/docs/messaging-api/using-rich-menus/
+    | Suggested use LINE Bot Designer:
+    | https://developers.line.biz/en/services/bot-designer/
+    |
+    | More: https://developers.line.biz/en/docs/messaging-api/using-rich-menus/
     |
     */
 
-    'rich_menu' => [
-        'size' => [
-            'width' => 2500,
-            'height' => 1686,
-        ],
-        'selected' => false,
-        'name' => 'Nice richmenu',
-        'chatBarText' => 'Tap here',
-        'areas' => [
-            [
-                'bounds' => [
-                    'x' => 0,
-                    'y' => 0,
-                    'width' => 2500,
-                    'height' => 1686,
-                ],
-                'action' => [
-                    'type' => 'message',
-                    'label' => 'Message',
-                    'text' => 'Message',
+    'rich_menus' => [
+        'rich_menu_1' => [
+            'size' => [
+                'width' => 2500,
+                'height' => 1686,
+            ],
+            'selected' => false,
+            'name' => 'Nice richmenu',
+            'chatBarText' => 'Tap here',
+            'areas' => [
+                [
+                    'bounds' => [
+                        'x' => 0,
+                        'y' => 0,
+                        'width' => 2500,
+                        'height' => 1686,
+                    ],
+                    'action' => [
+                        'type' => 'message',
+                        'label' => 'Message',
+                        'text' => 'Message',
+                    ],
                 ],
             ],
         ],
