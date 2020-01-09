@@ -18,7 +18,7 @@ trait LineBotRichMenuCommand
     protected $bot;
 
     /**
-     * The Line Bot instance.
+     * The Line Bot http instance.
      *
      * @var \LINE\LINEBot\HTTPClient
      */
@@ -42,7 +42,7 @@ trait LineBotRichMenuCommand
 
         $this->bot = $bot;
         $this->http = $http;
-        $this->config = Collection::make($config->get('linebot'));
+        $this->config = new Collection($config->get('linebot'));
     }
 
     /**
@@ -77,7 +77,7 @@ trait LineBotRichMenuCommand
      */
     protected function getRichMenus(Response $response)
     {
-        return Collection::make($response->getJSONDecodedBody()['richmenus']);
+        return new Collection($response->getJSONDecodedBody()['richmenus']);
     }
 
     /**
