@@ -16,6 +16,7 @@ use Ycs77\LaravelLineBot\Action;
 use Ycs77\LaravelLineBot\Contracts\Event;
 use Ycs77\LaravelLineBot\Contracts\Response;
 use Ycs77\LaravelLineBot\Event\TextEvent;
+use Ycs77\LaravelLineBot\Exceptions\InvalidUserException;
 use Ycs77\LaravelLineBot\Exceptions\LineRequestErrorException;
 use Ycs77\LaravelLineBot\File\Factory as FileFactory;
 use Ycs77\LaravelLineBot\Incoming\Collection as IncomingCollection;
@@ -26,6 +27,9 @@ use Ycs77\LaravelLineBot\Message\Builder;
 use Ycs77\LaravelLineBot\MessageRouter;
 use Ycs77\LaravelLineBot\Profile;
 use Ycs77\LaravelLineBot\QuickReplyBuilder;
+use Ycs77\LaravelLineBot\Test\Stubs\Models\InvalidUser;
+use Ycs77\LaravelLineBot\Test\Stubs\Models\MockUser;
+use Ycs77\LaravelLineBot\Test\Stubs\Models\User;
 
 class LineBotTest extends TestCase
 {
@@ -315,6 +319,20 @@ class LineBotTest extends TestCase
         $this->assertInstanceOf(MessageRouter::class, $this->bot->on());
     }
 
+    public function testGetCacheTTL()
+    {
+        Carbon::setTestNow(Carbon::create(2020, 1, 1, 0, 0, 0));
+
+        $this->config->shouldReceive('get')
+            ->with('linebot.cache_ttl')
+            ->once()
+            ->andReturn(60);
+
+        $ttl = $this->bot->getCacheTtl();
+
+        $this->assertTrue($ttl->equalTo(Carbon::create(2020, 1, 1, 1, 0, 0)));
+    }
+
     public function testGetProfileFromApi()
     {
         Carbon::setTestNow(Carbon::create(2020, 1, 1, 0, 0, 0));
@@ -339,7 +357,7 @@ class LineBotTest extends TestCase
         ];
 
         $this->config->shouldReceive('get')
-            ->with('linebot.cache_ttl', 120)
+            ->with('linebot.cache_ttl')
             ->once()
             ->andReturn(120);
 
@@ -419,14 +437,6 @@ class LineBotTest extends TestCase
         $this->assertSame('Hello world!', $profile->status());
     }
 
-    public function testGetProfileThrowMissingEventError()
-    {
-        $this->expectException(LineRequestErrorException::class);
-        $this->expectExceptionMessage('The LineBot event missing');
-
-        $this->bot->profile();
-    }
-
     public function testGetProfileFromApiFail()
     {
         /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot\Event\BaseEvent $baseEvent */
@@ -459,5 +469,171 @@ class LineBotTest extends TestCase
         $this->expectExceptionMessage('Error with getting Line profile');
 
         $this->bot->profile();
+    }
+
+    public function testGetUserFromModel()
+    {
+        Carbon::setTestNow(Carbon::create(2020, 1, 1, 0, 0, 0));
+
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot\Event\BaseEvent $baseEvent */
+        $baseEvent = m::mock(BaseEvent::class);
+        $baseEvent->shouldReceive('getUserId')
+            ->twice()
+            ->andReturn('UID12345678');
+
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Ycs77\LaravelLineBot\Contracts\Event $event */
+        $event = m::mock(Event::class);
+        $event->shouldReceive('base')
+            ->twice()
+            ->andReturn($baseEvent);
+
+        $expectedCacheUserContent = [
+            'displayName' => 'Lucas',
+            'userId' => 'UID12345678',
+            'pictureUrl' => 'https://example.com/image/path...',
+            'statusMessage' => 'Hello world!',
+        ];
+
+        $this->config->shouldReceive('get')
+            ->with('linebot.user.enabled')
+            ->once()
+            ->andReturn(true);
+        $this->config->shouldReceive('get')
+            ->with('linebot.user.model')
+            ->once()
+            ->andReturn(MockUser::class);
+        $this->config->shouldReceive('get')
+            ->with('linebot.cache_ttl')
+            ->twice()
+            ->andReturn(120);
+
+        $this->cache->shouldReceive('get')
+            ->with('linebot.profile.UID12345678')
+            ->once()
+            ->andReturn(null);
+        $this->cache->shouldReceive('put')
+            ->with(
+                'linebot.profile.UID12345678',
+                $expectedCacheUserContent,
+                m::on(function ($argument) {
+                    return $argument->equalTo(Carbon::create(2020, 1, 1, 2, 0, 0));
+                })
+            )
+            ->once();
+        $this->cache->shouldReceive('get')
+            ->with('linebot.user.UID12345678')
+            ->once()
+            ->andReturn(null);
+        $this->cache->shouldReceive('put')
+            ->with(
+                'linebot.user.UID12345678',
+                m::on(function ($argument) {
+                    return $argument->is(new MockUser);
+                }),
+                m::on(function ($argument) {
+                    return $argument->equalTo(Carbon::create(2020, 1, 1, 2, 0, 0));
+                })
+            )
+            ->once();
+
+        $response = new LineResponse(200, '{"displayName":"Lucas","userId":"UID12345678","pictureUrl":"https://example.com/image/path...","statusMessage":"Hello world!"}');
+
+        $this->baseLineBot->shouldReceive('getProfile')
+            ->with('UID12345678')
+            ->once()
+            ->andReturn($response);
+
+        $this->bot->setEvent($event);
+
+        $user = $this->bot->user();
+
+        $this->assertInstanceOf(MockUser::class, $user);
+        $this->assertSame('UID12345678', $user->line_user_id);
+        $this->assertSame('Lucas', $user->name);
+    }
+
+    public function testGetUserFromCache()
+    {
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot\Event\BaseEvent $baseEvent */
+        $baseEvent = m::mock(BaseEvent::class);
+        $baseEvent->shouldReceive('getUserId')
+            ->once()
+            ->andReturn('UID12345678');
+
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Ycs77\LaravelLineBot\Contracts\Event $event */
+        $event = m::mock(Event::class);
+        $event->shouldReceive('base')
+            ->once()
+            ->andReturn($baseEvent);
+
+        $this->config->shouldReceive('get')
+            ->with('linebot.user.enabled')
+            ->once()
+            ->andReturn(true);
+
+        $cachedUser = new MockUser([
+            'name' => 'Lucas',
+            'line_user_id' => 'UID12345678',
+        ]);
+
+        $this->cache->shouldReceive('get')
+            ->with('linebot.user.UID12345678')
+            ->once()
+            ->andReturn($cachedUser);
+
+        $this->bot->setEvent($event);
+
+        $user = $this->bot->user();
+
+        $this->assertSame($cachedUser, $user);
+        $this->assertSame('UID12345678', $user->line_user_id);
+        $this->assertSame('Lucas', $user->name);
+    }
+
+    public function testGetUserNoEnabled()
+    {
+        $this->config->shouldReceive('get')
+            ->with('linebot.user.enabled')
+            ->once()
+            ->andReturn(false);
+
+        $user = $this->bot->user();
+
+        $this->assertNull($user);
+    }
+
+    public function testGetUserThrowInvalidUserException()
+    {
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\LINE\LINEBot\Event\BaseEvent $baseEvent */
+        $baseEvent = m::mock(BaseEvent::class);
+        $baseEvent->shouldReceive('getUserId')
+            ->once()
+            ->andReturn('UID12345678');
+
+        /** @var \Mockery\MockInterface|\Mockery\LegacyMockInterface|\Ycs77\LaravelLineBot\Contracts\Event $event */
+        $event = m::mock(Event::class);
+        $event->shouldReceive('base')
+            ->once()
+            ->andReturn($baseEvent);
+
+        $this->config->shouldReceive('get')
+            ->with('linebot.user.enabled')
+            ->once()
+            ->andReturn(true);
+        $this->config->shouldReceive('get')
+            ->with('linebot.user.model')
+            ->once()
+            ->andReturn(InvalidUser::class);
+
+        $this->cache->shouldReceive('get')
+            ->with('linebot.user.UID12345678')
+            ->once()
+            ->andReturn(null);
+
+        $this->bot->setEvent($event);
+
+        $this->expectException(InvalidUserException::class);
+
+        $this->bot->user();
     }
 }

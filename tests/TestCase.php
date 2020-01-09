@@ -34,6 +34,11 @@ class TestCase extends OrchestraTestCase
      */
     protected function getEnvironmentSetUp($app)
     {
+        // Database
+        $app['config']->set('database.default', 'sqlite');
+        $app['config']->set('database.connections.sqlite.database', ':memory:');
+
+        // LineBot
         $app['config']->set('linebot.channel_access_token', 'token_123456');
         $app['config']->set('linebot.channel_secret', 'secret_123456');
         $app['config']->set('linebot.endpoint_base', 'https://api.line.me');

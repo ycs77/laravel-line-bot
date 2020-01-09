@@ -102,14 +102,12 @@ return [
     |
     | This config is setting the Line Bot User Eloquent Model.
     |
-    | (wip 功能開發中...)
-    |
     */
 
     'user' => [
-        'model' => App\User::class,
-        'field' => 'line_user_id',
         'enabled' => false,
+        'model' => App\User::class,
+        'id' => 'line_user_id',
     ],
 
     /*
@@ -122,6 +120,6 @@ return [
     |
     */
 
-    'cache_ttl' => 120,
+    'cache_ttl' => env('LINEBOT_CACHE_TTL', 120),
 
 ];

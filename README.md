@@ -231,6 +231,87 @@ $action->url('瀏覽網站', 'https://example.test/');
 * Camera (相機)
 * Camera Roll (圖片庫)
 
+## 用戶資訊
+
+### 取得 Line 用戶資料
+
+使用 `LineBot::profile()` 即可取得當前用戶的資訊：
+
+```php
+LineBot::on()->text('profile', function () {
+    $profile = LineBot::profile();
+    LineBot::text("你好 {$profile->name()}")->reply();
+});
+```
+
+可以取得的用戶資訊：
+
+* `id()`: User ID
+* `name()`: 用戶顯示名稱 (暱稱)
+* `picture()`: 用戶大頭貼網址
+* `status()`: 用戶狀態消息文字
+
+### 整合 Eloquent
+
+這個功能預設是關閉的，需要先把 LineBot 設置中的 `user.enabled` 改成 `true`，才可以開始使用 Eloquent：
+
+> 還可以依需求調整 `model` (用戶模型) 及 `id` (辨識用戶的欄位名稱)。
+
+*config/linebot.php*
+```php
+'user' => [
+    'enabled' => true,
+    'model' => App\User::class,
+    'id' => 'line_user_id',
+],
+```
+
+然後將 `users` 資料表修改成以下欄位，和運行 `php artisan migrate`：
+
+*database/migrations/2014_10_12_000000_create_users_table.php*
+```php
+Schema::create('users', function (Blueprint $table) {
+    $table->increments('id');
+    $table->string('name');
+    $table->string('line_user_id')->unique();
+    $table->timestamps();
+});
+```
+
+修改 User Model：
+
+*app/User.php*
+```php
+<?php
+
+namespace App;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Ycs77\LaravelLineBot\CanStoreFromLineBot;
+use Ycs77\LaravelLineBot\Contracts\User as UserContract;
+
+class User extends Authenticatable implements UserContract
+{
+    use Notifiable;
+    use CanStoreFromLineBot;
+
+    protected $fillable = [
+        'name', 'line_user_id',
+    ];
+}
+
+```
+
+最後，就可以使用 `LineBot::user()` 來取得用戶模型了：
+
+```php
+LineBot::on()->text('profile', function () {
+    $user = LineBot::user();
+    LineBot::text("你好：{$user->name}")->reply();
+});
+```
+
 ### Rich Menu
 
 #### 新增 Rich Menu 和上傳圖片

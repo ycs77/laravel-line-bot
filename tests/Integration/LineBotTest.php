@@ -7,8 +7,8 @@ use LINE\LINEBot\Response as LineResponse;
 use Mockery as m;
 use Mockery\MockInterface;
 use Ycs77\LaravelLineBot\Contracts\Event;
-use Ycs77\LaravelLineBot\Test\TestCase;
 use Ycs77\LaravelLineBot\Profile;
+use Ycs77\LaravelLineBot\Test\TestCase;
 
 class LineBotTest extends TestCase
 {

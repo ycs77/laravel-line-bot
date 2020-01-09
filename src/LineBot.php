@@ -8,7 +8,9 @@ use Illuminate\Contracts\Config\Repository as Config;
 use LINE\LINEBot as BaseLINEBot;
 use LINE\LINEBot\MessageBuilder;
 use Ycs77\LaravelLineBot\Contracts\Event;
+use Ycs77\LaravelLineBot\Contracts\User as LineBotUser;
 use Ycs77\LaravelLineBot\Event\Transformer as EventTransformer;
+use Ycs77\LaravelLineBot\Exceptions\InvalidUserException;
 use Ycs77\LaravelLineBot\Exceptions\LineRequestErrorException;
 use Ycs77\LaravelLineBot\File\Factory as FileFactory;
 use Ycs77\LaravelLineBot\Matching\Matcher;
@@ -179,16 +181,12 @@ class LineBot
     /**
      * Get Line user profile.
      *
-     * @return \Ycs77\LaravelLineBot\Profile|null
+     * @return \Ycs77\LaravelLineBot\Profile
      *
      * @throws \Ycs77\LaravelLineBot\Exceptions\LineRequestErrorException
      */
     public function profile()
     {
-        if (!$this->event) {
-            throw new LineRequestErrorException('The LineBot event missing');
-        }
-
         $userId = $this->event->base()->getUserId();
 
         if (!$userContent = $this->cache->get("linebot.profile.$userId")) {
@@ -199,12 +197,63 @@ class LineBot
             }
 
             $userContent = $response->getJSONDecodedBody();
-            $ttl = now()->addMinutes($this->config->get('linebot.cache_ttl', 120));
 
-            $this->cache->put("linebot.profile.$userId", $userContent, $ttl);
+            $this->cache->put(
+                "linebot.profile.$userId", $userContent, $this->getCacheTtl()
+            );
         }
 
         return new Profile($userContent);
+    }
+
+    /**
+     * Get the user model from database.
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     *
+     * @throws \Ycs77\LaravelLineBot\Exceptions\LineRequestErrorException
+     * @throws \Ycs77\LaravelLineBot\Exceptions\InvalidUserException
+     */
+    public function user()
+    {
+        if (!$this->config->get('linebot.user.enabled')) {
+            return;
+        }
+
+        $userId = $this->event->base()->getUserId();
+
+        if ($user = $this->cache->get("linebot.user.$userId")) {
+            return $user;
+        }
+
+        $userClass = $this->config->get('linebot.user.model');
+        $model = new $userClass;
+
+        if ($model instanceof LineBotUser) {
+            $user = $model->storeFromLineBotProfile(
+                $this->profile()
+            );
+
+            $this->cache->put(
+                "linebot.user.$userId", $user, $this->getCacheTtl()
+            );
+
+            return $user;
+        }
+
+        throw new InvalidUserException();
+    }
+
+    /**
+     * Get the cache TTL carbon instance.
+     *
+     * @return \Carbon\Carbon
+     */
+    public function getCacheTtl()
+    {
+        return now()->addMinutes(
+            $this->config->get('linebot.cache_ttl')
+        );
     }
 
     /**
