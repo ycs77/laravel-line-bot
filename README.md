@@ -9,7 +9,7 @@
 
 > 開發中
 
-在 Laravel 中開發 Line Bot
+在 Laravel 中優雅開發 Line Bot
 
 ## 安裝前準備
 
@@ -147,7 +147,7 @@ LineBot::on()->text('嗨', function () {
 
 按鈕選單：
 
-> 行動按鈕使用方式請參考 [行動按鈕](#%e8%a1%8c%e5%8b%95%e6%8c%89%e9%88%95-action)
+> 行動按鈕使用方式請參考 [行動按鈕 (Action)](#%e8%a1%8c%e5%8b%95%e6%8c%89%e9%88%95-action)
 
 ```php
 use Ycs77\LaravelLineBot\ActionBuilder;
@@ -327,7 +327,7 @@ LineBot::on()->text('profile', function () {
 
 1. 準備一張圖片 (範例中圖片路徑為 `"public/image.jpg"`)
 2. 在 `config/linebot.php` 中設定 `rich_menu` 的設定 (建議可以使用 [LINE Bot Designer](https://developers.line.biz/en/services/bot-designer/) 來產生)
-3. 執行 `linebot:richmenu:create` 命令以新增 Rich Menu：
+3. 執行 `linebot:richmenu:create` 命令新增 Rich Menu 和上傳圖片：
     ```
     php artisan linebot:richmenu:create "public/image.jpg"
     ```
@@ -378,6 +378,10 @@ composer test
 ```
 composer coverage
 ```
+
+## License
+
+Under the [MIT license](LICENSE.md).
 
 [ico-version]: https://img.shields.io/packagist/v/ycs77/laravel-line-bot?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square
