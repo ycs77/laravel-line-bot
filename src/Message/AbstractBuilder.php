@@ -53,8 +53,7 @@ abstract class AbstractBuilder
         if ($value instanceof QuickReplyBuilder) {
             $this->quickReply = $value;
         } elseif ($value instanceof Closure) {
-            $this->quickReply = new QuickReplyBuilder($this->bot->action());
-            call_user_func($value, $this->quickReply);
+            $value($this->quickReply = new QuickReplyBuilder($this->bot->action()));
         }
 
         return $this;

@@ -78,10 +78,9 @@ class TestCase extends OrchestraTestCase
      */
     public function httpMock(Closure $callback)
     {
-        $mock = m::mock(CurlHTTPClient::class, [
+        $mock = $callback(m::mock(CurlHTTPClient::class, [
             $this->app['config']->get('linebot.channel_access_token'),
-        ]);
-        $mock = call_user_func($callback, $mock);
+        ]));
 
         $this->app->instance('linebot.http', $mock);
     }

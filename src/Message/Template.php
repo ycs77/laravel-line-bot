@@ -86,9 +86,9 @@ class Template implements Message, QuickReplyMessage
      */
     public function getTemplate()
     {
-        $template = new TemplateBuilder($this->bot);
+        $callback = $this->callback;
 
-        call_user_func($this->callback, $template);
+        $callback($template = new TemplateBuilder($this->bot));
 
         return $template->getTemplate();
     }

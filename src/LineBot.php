@@ -126,20 +126,19 @@ class LineBot
             $this->setEvent($event);
 
             // Register incoming messages.
-            call_user_func($callback, $event);
+            $callback($event);
 
             $messages = $this->router->getMessages();
 
             // If has matched message, call the message reply callback.
             if ($matchedMessage = $this->matcher->match($messages)) {
-                call_user_func_array(
-                    $matchedMessage->getMessage()->getReplyCallback(),
-                    $event->getParameters($matchedMessage)
-                );
+                $ReplyCallback = $matchedMessage->getMessage()->getReplyCallback();
+                $ReplyCallback(...$event->getParameters($matchedMessage));
             } else {
                 // Call the fallback reply callback.
                 if ($fallbackMessage = $messages->getFallback()) {
-                    call_user_func($fallbackMessage->getReplyCallback());
+                    $ReplyCallback = $fallbackMessage->getReplyCallback();
+                    $ReplyCallback();
                 }
             }
         });
@@ -305,7 +304,7 @@ class LineBot
     public function setRouter($router)
     {
         $this->router = $router instanceof Closure
-            ? call_user_func($router, $this)
+            ? $router($this)
             : $router;
 
         return $this;

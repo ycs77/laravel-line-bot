@@ -62,7 +62,7 @@ class TemplateBuilder extends AbstractBuilder
         TemplateActionBuilder $defaultAction = null
     ) {
         if (is_callable($actionBuilders)) {
-            call_user_func($actionBuilders, $this->actionBuilder);
+            $actionBuilders($this->actionBuilder);
             $actionBuilders = $this->actionBuilder->get();
         }
 
@@ -90,7 +90,7 @@ class TemplateBuilder extends AbstractBuilder
     public function confirm(string $text, $actionBuilders)
     {
         if (is_callable($actionBuilders)) {
-            call_user_func($actionBuilders, $this->actionBuilder);
+            $actionBuilders($this->actionBuilder);
             $actionBuilders = $this->actionBuilder->get();
         }
 
