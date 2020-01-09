@@ -9,7 +9,7 @@
 
 > 開發中
 
-在 Laravel 中優雅開發 Line Bot
+在 Laravel 中快速開發 Line Bot
 
 ## 安裝前準備
 
