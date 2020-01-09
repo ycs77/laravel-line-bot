@@ -14,6 +14,7 @@
 ## 安裝前準備
 
 * 建立一個 Laravel 專案
+* 在 [Line Developers](https://developers.line.biz/zh-hant/)
 * 準備一個 HTTPS 的網址，開發時建議使用 [ngrok](https://ngrok.com/) 來建立臨時網址。
 
 ## 安裝
@@ -61,7 +62,7 @@ class VerifyCsrfToken extends Middleware
 
 ## 使用
 
-首先先開啟 `routes/linebot.php`，在 Laravel LineBot 中所有的監聽訊息及回傳的程式，都是在這個檔案中：
+首先先開啟 `routes/linebot.php`，在 Laravel LineBot 中所有的監聽訊息及回傳訊息的程式，都是在這個檔案中：
 
 *routes/linebot.php*
 ```php
@@ -85,7 +86,7 @@ LineBot::on()->fallback(function () {
 
 最基本的事件是監聽文字訊息事件，當然也可以使用 `{name}` 的替代文字來擷取用戶傳送的部分文字，並轉換成變數：
 
-> 用法參考自 Laravel Route
+> 用法參考自 Botman
 
 ```php
 LineBot::on()->text('我叫{name}', function ($name) {
@@ -103,6 +104,8 @@ LineBot::on()->fallback(function () {
 
 除了文字訊息事件，也可以監聽圖片訊息事件、跟隨事件等：
 
+> 這些功能目前尚未完成
+
 ```php
 LineBot::on()->image(function () {
     LineBot::text('圖片')->reply();
@@ -115,22 +118,22 @@ LineBot::on()->follow(function () {
 
 全部可以監聽的事件：
 
-* Text Message Event (文字訊息事件)
-* (未完成) Image Message Event (圖片訊息事件)
-* (未完成) Video Message Event (影片訊息事件)
-* (未完成) Audio Message Event (音檔訊息事件)
-* (未完成) File Message Event (檔案訊息事件)
-* (未完成) Location Message Event (位置訊息事件)
-* (未完成) Sticker Message Event (貼圖訊息事件)
-* (未完成) Follow Event (加為好友事件)
-* (未完成) Unfollow Event (取消好友事件)
-* (未完成) Join Event (LineBot 加入聊天室事件)
-* (未完成) Leave Event (LineBot 退出聊天室事件)
-* (未完成) Member Join Event (其他人加入聊天室事件)
-* (未完成) Member Leave Event (其他人退出聊天室事件)
-* (未完成) Postback Event (Postback 事件)
-* (未完成) Account Link Event (用戶連結事件)
-* Fallback Event (預設回應)
+* `text()`: Text Message Event (文字訊息事件)
+* `image()`: ***(未完成)*** Image Message Event (圖片訊息事件)
+* `video()`: ***(未完成)*** Video Message Event (影片訊息事件)
+* `audio()`: ***(未完成)*** Audio Message Event (音檔訊息事件)
+* `file()`: ***(未完成)*** File Message Event (檔案訊息事件)
+* `location()`: ***(未完成)*** Location Message Event (位置訊息事件)
+* `sticker()`: ***(未完成)*** Sticker Message Event (貼圖訊息事件)
+* `follow()`: ***(未完成)*** Follow Event (加為好友事件)
+* `unfollow()`: ***(未完成)*** Unfollow Event (取消好友事件)
+* `join()`: ***(未完成)*** Join Event (LineBot 加入聊天室事件)
+* `leave()`: ***(未完成)*** Leave Event (LineBot 退出聊天室事件)
+* `memberJoin()`: ***(未完成)*** Member Join Event (其他人加入聊天室事件)
+* `memberLeave()`: ***(未完成)*** Member Leave Event (其他人退出聊天室事件)
+* `postback()`: ***(未完成)*** Postback Event (Postback 事件)
+* `accountLink()`: ***(未完成)*** Account Link Event (用戶連結事件)
+* `fallback()`: Fallback Event (預設回應)
 
 ### 回應 (Reply)
 
@@ -171,24 +174,28 @@ LineBot::on()->text('加到購物車', function () {
 
 全部可以使用的回覆訊息類型：
 
-* Text (文字)
-* (未完成) Sticker (貼圖)
-* (未完成) Image (圖片)
-* (未完成) Video (影片)
-* (未完成) Audio (音檔)
-* (未完成) Location (位置)
-* (未完成) Imagemap (圖片映射訊息)
-* Template Buttons (按鈕選單)
-* Template Confirm (確認)
-* (未完成) Template Carousel (輪播)
-* (未完成) Template Image carousel (圖片輪播)
-* (未完成) Flex
+* `text()`: Text (文字)
+* `sticker()`: ***(未完成)*** Sticker (貼圖)
+* `image()`: ***(未完成)*** Image (圖片)
+* `video()`: ***(未完成)*** Video (影片)
+* `audio()`: ***(未完成)*** Audio (音檔)
+* `location()`: ***(未完成)*** Location (位置)
+* `imagemap()`: ***(未完成)*** Imagemap (圖片映射)
+* `template()`: Template (模板訊息)
+* `flex()`: ***(未完成)*** Flex
+
+全部可以使用的模板訊息類型：
+
+* `buttons()`: Template Buttons (按鈕選單)
+* `confirm()`: Template Confirm (確認)
+* `carousel()`: ***(未完成)*** Template Carousel (輪播)
+* `imageCarousel()`: ***(未完成)*** Template Image carousel (圖片輪播)
 
 ### 快速回覆 (Quick Reply)
 
-> 行動按鈕使用方式請參考 [行動按鈕](#%e8%a1%8c%e5%8b%95%e6%8c%89%e9%88%95-action)
+> 行動按鈕使用方式請參考 [行動按鈕 (Action)](#%e8%a1%8c%e5%8b%95%e6%8c%89%e9%88%95-action)
 
-> 快速回覆無法使用 Url 行動
+> 快速回覆無法使用 Url Action
 
 ```php
 use Ycs77\LaravelLineBot\QuickReplyBuilder;
@@ -223,13 +230,13 @@ $action->url('瀏覽網站', 'https://example.test/');
 
 全部可以使用的行動按鈕：
 
-* Message (文字訊息)
-* Url (網址)
-* Postback
-* Location (選擇位置)
-* Datetime Picker (日期)
-* Camera (相機)
-* Camera Roll (圖片庫)
+* `message()`: Message (文字訊息)
+* `url()`: Url (網址)
+* `postback()`: Postback
+* `location()`: Location (選擇位置)
+* `datetimePicker()`: Datetime Picker (日期)
+* `camera()`: Camera (相機)
+* `cameraRoll()`: Camera Roll (圖片庫)
 
 ## 用戶資訊
 
@@ -318,13 +325,12 @@ LineBot::on()->text('profile', function () {
 
 > 詳細配置請參考 [Line 官方說明：Using rich menus](https://developers.line.biz/en/docs/messaging-api/using-rich-menus/)
 
-先在 `config/linebot.php` 中設定好 `rich_menu`，和準備一張圖片，執行 `linebot:richmenu:create` 命令以新增 Rich Menu：
-
-> 範例中圖片路徑為 `"public/image.jpg"`，可以修改成實際圖片的路徑。
-
-```
-php artisan linebot:richmenu:create "public/image.jpg"
-```
+1. 準備一張圖片 (範例中圖片路徑為 `"public/image.jpg"`)
+2. 在 `config/linebot.php` 中設定 `rich_menu` 的設定 (建議可以使用 [LINE Bot Designer](https://developers.line.biz/en/services/bot-designer/) 來產生)
+3. 執行 `linebot:richmenu:create` 命令以新增 Rich Menu：
+    ```
+    php artisan linebot:richmenu:create "public/image.jpg"
+    ```
 
 #### 查看 Rich Menu
 
@@ -354,7 +360,7 @@ php artisan linebot:richmenu:clear richmenuid-sdg24sd56gf...
 php artisan linebot:richmenu:clear --all
 ```
 
-更多資訊請參考 Line 官方文檔：
+## 參考
 
 * [Line SDK 文檔](https://developers.line.biz/en/reference/messaging-api/)
 * [Line 官方 SDK - PHP](https://github.com/line/line-bot-sdk-php)
