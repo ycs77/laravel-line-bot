@@ -288,13 +288,13 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Ycs77\LaravelLineBot\CanStoreFromLineBot;
+use Ycs77\LaravelLineBot\CanStoreLineBotUser;
 use Ycs77\LaravelLineBot\Contracts\User as UserContract;
 
 class User extends Authenticatable implements UserContract
 {
     use Notifiable;
-    use CanStoreFromLineBot;
+    use CanStoreLineBotUser;
 
     protected $fillable = [
         'name', 'line_user_id',

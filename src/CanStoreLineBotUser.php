@@ -5,7 +5,7 @@ namespace Ycs77\LaravelLineBot;
 /**
  * @mixed \Illuminate\Database\Eloquent\Model
  */
-trait CanStoreFromLineBot
+trait CanStoreLineBotUser
 {
     /**
      * Store user from LineBot profile.
