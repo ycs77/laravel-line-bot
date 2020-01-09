@@ -2,8 +2,6 @@
 
 namespace Ycs77\LaravelLineBot;
 
-use Ycs77\LaravelLineBot\Profile;
-
 /**
  * @mixed \Illuminate\Database\Eloquent\Model
  */

@@ -29,7 +29,6 @@ use Ycs77\LaravelLineBot\Profile;
 use Ycs77\LaravelLineBot\QuickReplyBuilder;
 use Ycs77\LaravelLineBot\Test\Stubs\Models\InvalidUser;
 use Ycs77\LaravelLineBot\Test\Stubs\Models\MockUser;
-use Ycs77\LaravelLineBot\Test\Stubs\Models\User;
 
 class LineBotTest extends TestCase
 {
