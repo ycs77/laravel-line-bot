@@ -125,6 +125,9 @@ class LineBot
         array_walk($events, function ($event) use ($callback) {
             $this->setEvent($event);
 
+            // Clear messages.
+            $this->router->clearMessages();
+
             // Register incoming messages.
             $callback($event);
 

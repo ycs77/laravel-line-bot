@@ -299,12 +299,22 @@ class MessageRouter
     }
 
     /**
-     * Get the message collection instance.
+     * Get the messages collection instance.
      *
      * @return \Ycs77\LaravelLineBot\Incoming\Collection
      */
     public function getMessages()
     {
         return $this->messages;
+    }
+
+    /**
+     * Clear the messages collection instance.
+     *
+     * @return void
+     */
+    public function clearMessages()
+    {
+        $this->messages = $this->newCollection();
     }
 }
