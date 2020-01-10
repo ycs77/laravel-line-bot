@@ -47,9 +47,10 @@ class LineBotControllerTest extends TestCase
             'state' => true,
         ];
 
-        $signature = 'DyOJ3l7ISbmXb7z6rZMvZMwm105fN0k5fw8vLi50T8c=';
-        $content = '{"destination":"xxxxxxxxxx","events":[{"replyToken":"0f3779fba3b349968c5d07db31eab56f","type":"message","timestamp":1462629479859,"source":{"type":"user","userId":"UID12345678"},"message":{"id":"325708","type":"text","text":"哈囉"}}]}';
-        $request = $this->createRequest($signature, $content);
+        $request = $this->createRequest(
+            'DyOJ3l7ISbmXb7z6rZMvZMwm105fN0k5fw8vLi50T8c=',
+            '{"destination":"xxxxxxxxxx","events":[{"replyToken":"0f3779fba3b349968c5d07db31eab56f","type":"message","timestamp":1462629479859,"source":{"type":"user","userId":"UID12345678"},"message":{"id":"325708","type":"text","text":"哈囉"}}]}'
+        );
 
         $response = $this->app->make(Response::class);
 
@@ -66,9 +67,10 @@ class LineBotControllerTest extends TestCase
             'state' => true,
         ];
 
-        $signature = 'DyOJ3l7ISbmXb7z6rZMvZMwm105fN0k5fw8vLi50T8c=';
-        $content = '{"destination":"xxxxxxxxxx","events":[{"replyToken":"0f3779fba3b349968c5d07db31eab56f","type":"message","timestamp":1462629479859,"source":{"type":"user","userId":"UID12345678"},"message":{"id":"325708","type":"text","text":"哈囉"}}]}';
-        $request = $this->createRequest($signature, $content);
+        $request = $this->createRequest(
+            'DyOJ3l7ISbmXb7z6rZMvZMwm105fN0k5fw8vLi50T8c=',
+            '{"destination":"xxxxxxxxxx","events":[{"replyToken":"0f3779fba3b349968c5d07db31eab56f","type":"message","timestamp":1462629479859,"source":{"type":"user","userId":"UID12345678"},"message":{"id":"325708","type":"text","text":"哈囉"}}]}'
+        );
 
         $response = $this->app->make(Response::class);
 
@@ -107,9 +109,10 @@ class LineBotControllerTest extends TestCase
             'state' => true,
         ];
 
-        $signature = 'KTeHk+28VBv5+rLcKfU3GJKESYo/zD7OpfxL1x1fcxE=';
-        $content = '{"destination":"xxxxxxxxxx","events":[{"replyToken":"0f3779fba3b349968c5d07db31eab56f","type":"message","timestamp":1462629479859,"source":{"type":"user","userId":"UID12345678"},"message":{"id":"325708","type":"text","text":"這句話不存在"}}]}';
-        $request = $this->createRequest($signature, $content);
+        $request = $this->createRequest(
+            'KTeHk+28VBv5+rLcKfU3GJKESYo/zD7OpfxL1x1fcxE=',
+            '{"destination":"xxxxxxxxxx","events":[{"replyToken":"0f3779fba3b349968c5d07db31eab56f","type":"message","timestamp":1462629479859,"source":{"type":"user","userId":"UID12345678"},"message":{"id":"325708","type":"text","text":"這句話不存在"}}]}'
+        );
 
         $response = $this->app->make(Response::class);
 
@@ -149,9 +152,10 @@ class LineBotControllerTest extends TestCase
             'message' => '{"message":"The request body has 1 error","details":[{"message":"Throw the error","property":"messages[0].text"}]}',
         ];
 
-        $signature = 'DyOJ3l7ISbmXb7z6rZMvZMwm105fN0k5fw8vLi50T8c=';
-        $content = '{"destination":"xxxxxxxxxx","events":[{"replyToken":"0f3779fba3b349968c5d07db31eab56f","type":"message","timestamp":1462629479859,"source":{"type":"user","userId":"UID12345678"},"message":{"id":"325708","type":"text","text":"哈囉"}}]}';
-        $request = $this->createRequest($signature, $content);
+        $request = $this->createRequest(
+            'DyOJ3l7ISbmXb7z6rZMvZMwm105fN0k5fw8vLi50T8c=',
+            '{"destination":"xxxxxxxxxx","events":[{"replyToken":"0f3779fba3b349968c5d07db31eab56f","type":"message","timestamp":1462629479859,"source":{"type":"user","userId":"UID12345678"},"message":{"id":"325708","type":"text","text":"哈囉"}}]}'
+        );
 
         $response = $this->app->make(Response::class);
 
