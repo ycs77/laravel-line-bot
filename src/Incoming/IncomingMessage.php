@@ -52,13 +52,26 @@ class IncomingMessage
     }
 
     /**
-     * Get the incoming message expected event class name.
+     * Get the event instance.
      *
      * @return \Ycs77\LaravelLineBot\Contracts\Event
      */
     public function getEvent()
     {
         return $this->event;
+    }
+
+    /**
+     * Set the event instance.
+     *
+     * @param  \Ycs77\LaravelLineBot\Contracts\Event  $event
+     * @return self
+     */
+    public function setEvent(Event $event)
+    {
+        $this->event = $event;
+
+        return $this;
     }
 
     /**

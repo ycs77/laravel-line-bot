@@ -33,6 +33,21 @@ class IncomingMessageTest extends TestCase
         $this->assertFalse($incomingMessage->isFallback());
     }
 
+    public function testGetAndSetEventFromIncomingMessage()
+    {
+        /** @var \Ycs77\LaravelLineBot\Contracts\Event $event */
+        $event = m::mock(Event::class);
+
+        /** @var \Ycs77\LaravelLineBot\Contracts\Event $newEvent */
+        $newEvent = m::mock(Event::class);
+
+        $incomingMessage = $this->createIncomingMessage($event, Event::class);
+        $this->assertSame($event, $incomingMessage->getEvent());
+
+        $incomingMessage->setEvent($newEvent);
+        $this->assertSame($newEvent, $incomingMessage->getEvent());
+    }
+
     public function testNewTextIncomingMessage()
     {
         /** @var \Ycs77\LaravelLineBot\Event\TextEvent $event */
