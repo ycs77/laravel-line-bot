@@ -79,7 +79,7 @@ class MessageRouter
     }
 
     /**
-     * Add text incoming message.
+     * Listen the text message event.
      *
      * @param  string  $pattern
      * @param  \Closure  $callback
@@ -94,7 +94,7 @@ class MessageRouter
     }
 
     /**
-     * Add image incoming message.
+     * Listen the image message event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -107,7 +107,7 @@ class MessageRouter
     }
 
     /**
-     * Add video incoming message.
+     * Listen the video message event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -120,7 +120,7 @@ class MessageRouter
     }
 
     /**
-     * Add audio incoming message.
+     * Listen the audio message event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -133,7 +133,7 @@ class MessageRouter
     }
 
     /**
-     * Add file incoming message.
+     * Listen the file message event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -146,7 +146,7 @@ class MessageRouter
     }
 
     /**
-     * Add location incoming message.
+     * Listen the location message event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -159,7 +159,7 @@ class MessageRouter
     }
 
     /**
-     * Add sticker incoming message.
+     * Listen the sticker message event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -172,7 +172,7 @@ class MessageRouter
     }
 
     /**
-     * Add follow incoming message.
+     * Listen the follow event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -185,7 +185,7 @@ class MessageRouter
     }
 
     /**
-     * Add unfollow incoming message.
+     * Listen the unfollow event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -198,7 +198,7 @@ class MessageRouter
     }
 
     /**
-     * Add joinr incoming message.
+     * Listen the joinr event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -211,7 +211,7 @@ class MessageRouter
     }
 
     /**
-     * Add leave incoming message.
+     * Listen the leave event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -224,7 +224,7 @@ class MessageRouter
     }
 
     /**
-     * Add member join incoming message.
+     * Listen the member join event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -237,7 +237,7 @@ class MessageRouter
     }
 
     /**
-     * Add member leave incoming message.
+     * Listen the member leave event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -250,7 +250,7 @@ class MessageRouter
     }
 
     /**
-     * Add postback incoming message.
+     * Listen the postback event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -263,7 +263,7 @@ class MessageRouter
     }
 
     /**
-     * Add accountLink incoming message.
+     * Listen the account link event.
      *
      * @param  \Closure  $callback
      * @return void
@@ -276,7 +276,7 @@ class MessageRouter
     }
 
     /**
-     * Add fallback incoming message.
+     * Listen the fallback event.
      *
      * @param  \Closure  $callback
      * @return void
