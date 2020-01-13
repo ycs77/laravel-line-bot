@@ -83,7 +83,7 @@ class LineBotServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerCommands()
+    protected function registerCommands()
     {
         $this->commands([
             Commands\InstallCommand::class,
