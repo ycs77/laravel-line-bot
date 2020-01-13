@@ -39,7 +39,7 @@ class LineBotServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('linebot.response', function ($app) {
-            return new Response($app[ResponseFactory::class]);
+            return new Response($this->getResponseFactory($app));
         });
 
         $this->setAliases([
@@ -79,6 +79,27 @@ class LineBotServiceProvider extends ServiceProvider
     }
 
     /**
+     * Get the response factory instance.
+     *
+     * @param  mixed  $app
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Laravel\Lumen\Http\ResponseFactory
+     */
+    protected function getResponseFactory($app)
+    {
+        return $app[ResponseFactory::class];
+    }
+
+    /**
+     * Get the config file path.
+     *
+     * @return string
+     */
+    protected function getConfigPath()
+    {
+        return config_path('linebot.php');
+    }
+
+    /**
      * Register the commands.
      *
      * @return void
@@ -101,7 +122,7 @@ class LineBotServiceProvider extends ServiceProvider
     protected function publishResources()
     {
         $this->publishes([
-            __DIR__ . '/../config/linebot.php' => config_path('linebot.php'),
+            __DIR__ . '/../config/linebot.php' => $this->getConfigPath(),
         ]);
     }
 }

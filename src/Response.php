@@ -2,7 +2,6 @@
 
 namespace Ycs77\LaravelLineBot;
 
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Ycs77\LaravelLineBot\Contracts\Response as ResponseContract;
 
 class Response implements ResponseContract
@@ -10,16 +9,16 @@ class Response implements ResponseContract
     /**
      * The response factory instance.
      *
-     * @var \Illuminate\Contracts\Routing\ResponseFactory
+     * @var \Illuminate\Contracts\Routing\ResponseFactory|\Laravel\Lumen\Http\ResponseFactory
      */
     protected $factory;
 
     /**
      * Create a new response instance.
      *
-     * @param \Illuminate\Contracts\Routing\ResponseFactory $factory
+     * @param \Illuminate\Contracts\Routing\ResponseFactory|\Laravel\Lumen\Http\ResponseFactory $factory
      */
-    public function __construct(ResponseFactory $factory)
+    public function __construct($factory)
     {
         $this->factory = $factory;
     }

@@ -13,8 +13,8 @@
 
 ## 安裝前準備
 
-* 建立一個 Laravel 專案
-* 在 [Line Developers](https://developers.line.biz/zh-hant/)
+* 建立一個 Laravel (或 Lumen) 專案
+* 在 [Line Developers](https://developers.line.biz/console/) 設定新的 Messaging API
 * 準備一個 HTTPS 的網址，開發時建議使用 [ngrok](https://ngrok.com/) 來建立臨時網址。
 
 ## 安裝
@@ -59,6 +59,29 @@ class VerifyCsrfToken extends Middleware
 最後，在 [Line Developers](https://developers.line.biz/zh-hant/) 設定 webhook 網址：
 
 ![Line Developers 設定 webhook](docs/screenshot_webhook.jpg)
+
+### Lumen
+
+如果使用 Lumen，就需要使用 Lumen 的方式來註冊。Composer 安裝完成後，首先先把 config 檔案複製到 `config/linebot.php` (若 config 資料夾不存在請自行創建)，然後開啟 `bootstrap/app.php`，依照以下方式來註冊。
+
+*bootstrap/app.php*
+```php
+$app->configure('app');
+$app->configure('linebot');
+
+/*
+|--------------------------------------------------------------------------
+| Register Service Providers
+|--------------------------------------------------------------------------
+|
+| ...
+|
+*/
+
+$app->register(Ycs77\LaravelLineBot\LineBotLumenServiceProvider::class);
+```
+
+最後，執行 `php artisan linebot:install` 和在 [Line Developers](https://developers.line.biz/zh-hant/) 設定 webhook 網址即可。
 
 ## 使用
 
@@ -273,6 +296,8 @@ LineBot::on()->text('profile', function () {
 ],
 ```
 
+> 在 Lumen 中需要開啟 `bootstrap/app.php` 取消 `$app->withEloquent();` 的註釋
+
 然後將 `users` 資料表修改成以下欄位，和運行 `php artisan migrate`：
 
 *database/migrations/2014_10_12_000000_create_users_table.php*
@@ -300,8 +325,7 @@ use Ycs77\LaravelLineBot\Contracts\User as UserContract;
 
 class User extends Authenticatable implements UserContract
 {
-    use Notifiable;
-    use CanStoreLineBotUser;
+    use Notifiable, CanStoreLineBotUser;
 
     protected $fillable = [
         'name', 'line_user_id',
@@ -313,7 +337,7 @@ class User extends Authenticatable implements UserContract
 最後，就可以使用 `LineBot::user()` 來取得用戶模型了：
 
 ```php
-LineBot::on()->text('profile', function () {
+LineBot::on()->text('user', function () {
     $user = LineBot::user();
     LineBot::text("你好：{$user->name}")->reply();
 });
