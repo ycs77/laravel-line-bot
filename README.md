@@ -31,7 +31,7 @@ composer require ycs77/laravel-line-bot
 php artisan vendor:publish --provider=Ycs77\\LaravelLineBot\\LineBotServiceProvider
 ```
 
-設定 Line Bot 金鑰到 `.env` 檔裡 (在 [Line Developers](https://developers.line.biz/zh-hant/) 申請)：
+設定 Line Bot 金鑰到 `.env` 檔裡 (在剛才新增的 Messaging API 裡產生)：
 
 ```
 LINE_BOT_CHANNEL_ACCESS_TOKEN=xxx...
@@ -56,13 +56,13 @@ class VerifyCsrfToken extends Middleware
 }
 ```
 
-最後，在 [Line Developers](https://developers.line.biz/zh-hant/) 設定 webhook 網址：
+最後，開啟 [Line Developers](https://developers.line.biz/console/)，關閉「歡迎訊息」和「自動回應訊息」，並開啟和設定 Webhook 網址：
 
-![Line Developers 設定 webhook](docs/screenshot_webhook.jpg)
+![LINE Bot 回應設定](docs/screenshot_reply_setting.jpg)
 
 ### Lumen
 
-如果使用 Lumen，就需要使用 Lumen 的方式來註冊。Composer 安裝完成後，首先先把 config 檔案複製到 `config/linebot.php` (若 config 資料夾不存在請自行創建)，然後開啟 `bootstrap/app.php`，依照以下方式來註冊。
+如果使用 Lumen，就需要別的方式來註冊。使用 Composer 安裝完套件後，首先先把 config 檔案複製到 `config/linebot.php` (若 config 資料夾不存在請自行創建)，然後開啟 `bootstrap/app.php`，依照以下方式來註冊。
 
 *bootstrap/app.php*
 ```php
