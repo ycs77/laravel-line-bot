@@ -60,6 +60,8 @@ trait LineBotService
     protected function reply(array $events)
     {
         $this->bot()->routes($events, function () {
+            $linebot = $this->bot();
+
             include base_path(config('linebot.routes_path'));
         });
     }

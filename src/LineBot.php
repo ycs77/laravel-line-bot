@@ -5,6 +5,7 @@ namespace Ycs77\LaravelLineBot;
 use Closure;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
+use Illuminate\Support\Carbon;
 use LINE\LINEBot as BaseLINEBot;
 use LINE\LINEBot\MessageBuilder;
 use Ycs77\LaravelLineBot\Contracts\Event;
@@ -250,7 +251,7 @@ class LineBot
      */
     public function getCacheTtl()
     {
-        return now()->addMinutes(
+        return Carbon::now()->addMinutes(
             $this->config->get('linebot.cache_ttl')
         );
     }
