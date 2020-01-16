@@ -133,13 +133,13 @@ class LineBot
 
             // If has matched message, call the message reply callback.
             if ($matchedMessage = $this->matcher->match($messages)) {
-                $ReplyCallback = $matchedMessage->getMessage()->getReplyCallback();
-                $ReplyCallback(...$event->getParameters($matchedMessage));
+                $replyCallback = $matchedMessage->getMessage()->getReplyCallback();
+                $replyCallback(...$event->getParameters($matchedMessage));
             } else {
                 // Call the fallback reply callback.
                 if ($fallbackMessage = $messages->getFallback()) {
-                    $ReplyCallback = $fallbackMessage->getReplyCallback();
-                    $ReplyCallback();
+                    $replyCallback = $fallbackMessage->getReplyCallback();
+                    $replyCallback();
                 }
             }
         });
