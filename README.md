@@ -62,7 +62,7 @@ class VerifyCsrfToken extends Middleware
 
 ### Lumen
 
-如果使用 Lumen，就需要別的方式來註冊。使用 Composer 安裝完套件後，首先先把 config 檔案複製到 `config/linebot.php` (若 config 資料夾不存在請自行創建)，然後開啟 `bootstrap/app.php`，依照以下方式來註冊。
+如果使用 Lumen，就需要別的方式來註冊。使用 Composer 安裝完套件後，首先先把 config 檔案複製到 `config/linebot.php` (若 config 資料夾不存在請自行創建)，然後開啟 `bootstrap/app.php`，新增下方程式碼來註冊。
 
 *bootstrap/app.php*
 ```php
@@ -415,6 +415,17 @@ php artisan linebot:richmenu:clear richmenuid-sdg24sd56gf...
 
 ```
 php artisan linebot:richmenu:clear --all
+```
+
+### 調用 LINE 官方 SDK 的 API
+
+使用 `LineBot::base()` 即可調用 LINE 官方 SDK 的 API：
+
+```php
+LineBot::on()->text('LINE SDK', function () {
+    $token = LineBot::getEvent()->getReplyToken();
+    LineBot::base()->replyText($token, '回傳文字...');
+});
 ```
 
 ## 參考
